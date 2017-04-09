@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="853a45b1-c199-4461-8133-dfce4e62c910" ChangeDateTime="04/09/2017 08:25:46">
+    <Property Name="ElementName" Value="[dbo].[User].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[User]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UserID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="92e897f8-7289-4913-be91-1903e43caf9f" ChangeDateTime="04/09/2017 08:28:15">
+    <Property Name="ElementName" Value="[dbo].[Scorecard].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Scorecard]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ScorecardID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c159a913-c9fa-49c3-badf-58c9efc6993b" ChangeDateTime="04/09/2017 08:33:00">
+    <Property Name="ElementName" Value="[dbo].[ScorecardItem].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ScorecardItem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ScorecardItemID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="369cb4f8-069b-4cef-9535-2f216bddcc59" ChangeDateTime="04/09/2017 08:33:47">
+    <Property Name="ElementName" Value="[dbo].[ScorecardItem].[QuestionTypeID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ScorecardItem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="QuestionType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0b5ec91e-6bde-4095-b1f9-8c1571e38058" ChangeDateTime="04/09/2017 08:38:50">
+    <Property Name="ElementName" Value="[dbo].[ScorecardItemGroup].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ScorecardItemGroup]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ScorecardItemGroupID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="d23b4a99-c7b1-4a6e-befc-1212dee412b6" ChangeDateTime="04/09/2017 08:42:34">
+    <Property Name="ElementName" Value="[dbo].[Result].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Result]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResultID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4b4af9fb-5bc0-496d-a34f-530d3e1cf552" ChangeDateTime="04/09/2017 08:44:29">
+    <Property Name="ElementName" Value="[dbo].[Result].[Date]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Result]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateScored" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ccf41f5b-92c6-4c91-8fe3-3bde8cab4c49" ChangeDateTime="04/09/2017 08:46:15">
+    <Property Name="ElementName" Value="[dbo].[ResultItem].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ResultItem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResultItemID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c53db187-165d-4aa3-a90f-dea0d4b9b1f2" ChangeDateTime="04/09/2017 08:48:13">
+    <Property Name="ElementName" Value="[dbo].[ResultGroup].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ResultGroup]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ResultGroupID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5afa71c6-fd6c-4d43-9c45-23aa2fc94eea" ChangeDateTime="04/09/2017 08:49:13">
+    <Property Name="ElementName" Value="[dbo].[UserLevel].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserLevel]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UserLeveID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="64b5e90d-4da9-4420-840e-e9bdb47aa0ee" ChangeDateTime="04/09/2017 11:20:25">
+    <Property Name="ElementName" Value="[dbo].[ResultGroup].[ResultID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ResultGroup]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ScoreCardIt" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="908d33a1-4e2d-4fca-a0e8-daf668f84545" ChangeDateTime="04/09/2017 11:20:31">
+    <Property Name="ElementName" Value="[dbo].[ResultGroup].[ScoreCardIt]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ResultGroup]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ScoreCardItemGroupID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="80ae31bf-3741-4a5f-8c49-30106c8b3a3d" ChangeDateTime="04/09/2017 11:29:11">
+    <Property Name="ElementName" Value="[dbo].[ResultGroup].[ScoreCardItemGroupID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ResultGroup]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ScorecardItemGroupID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="1aff6fc4-ed86-4a5c-bcba-975250f523d4" ChangeDateTime="04/09/2017 11:31:37">
+    <Property Name="ElementName" Value="[dbo].[User].[UserLevel]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[User]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UserLevelID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f5eba08f-10b4-44c4-8ebf-f6d541f9e9ca" ChangeDateTime="04/09/2017 11:35:56">
+    <Property Name="ElementName" Value="[dbo].[UserLevel].[UserLeveID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[UserLevel]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="UserLevelID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a2d17b56-964b-421a-a985-55ee763233f4" ChangeDateTime="04/09/2017 11:57:02">
+    <Property Name="ElementName" Value="[dbo].[ScorecardItem].[ScorecardGroupID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ScorecardItem]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ScorecardItemGroupID" />
+  </Operation>
+</Operations>
