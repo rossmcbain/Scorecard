@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Scorecard Database", "Scorecard Database\Scorecard Database.sqlproj", "{45E0B6FB-8A70-4107-8DD2-D4E8F5575154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScorecardApplication", "ScorecardApplication\ScorecardApplication.csproj", "{18EC7F4E-25ED-4FDF-9310-91B249B3241B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +19,10 @@ Global
 		{45E0B6FB-8A70-4107-8DD2-D4E8F5575154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45E0B6FB-8A70-4107-8DD2-D4E8F5575154}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45E0B6FB-8A70-4107-8DD2-D4E8F5575154}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{18EC7F4E-25ED-4FDF-9310-91B249B3241B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18EC7F4E-25ED-4FDF-9310-91B249B3241B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18EC7F4E-25ED-4FDF-9310-91B249B3241B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18EC7F4E-25ED-4FDF-9310-91B249B3241B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
