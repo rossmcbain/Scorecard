@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Scorecard";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12">
+                <form class="form-inline">
+                    <form-group>
+                        <label for="scorecardtype">Scorecard Template:</label>
+                        <select name="scorecardtype" id="scorecardtype" class="form-control selectpicker show-tick">
+
+                            @*@foreach (string row in Model.ScorecardList)
+                                {
+                                    <option value="row.ScorecardID.ToString">row.ScorecardDescription</option>
+                                }*@
+
+                        </select>
+                    </form-group>
+                    <form-group>
+                        <label for="scorecardtype">Scorecard Template:</label>
+                        <input id="callreference" name="callreference" type="text" class="form-control"/>
+                    </form-group>
+                    <input id="btnLoad" type="button" value="Load" class="btn btn-default" />
+                </form>
+
+                <audio src="~/Content/Alex_Cohen_-_Good_Old_Times.mp3" autoplay controls id="audio1">
+
+                    audio is not supported.
+
+                </audio>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
