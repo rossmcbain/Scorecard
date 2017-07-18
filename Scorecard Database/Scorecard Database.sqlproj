@@ -57,18 +57,51 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Tables" />
-    <Folder Include="Stored Procedures" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\User.sql" />
-    <Build Include="Tables\Scorecard.sql" />
-    <Build Include="Tables\ScorecardItem.sql" />
-    <Build Include="Tables\ScorecardItemGroup.sql" />
-    <Build Include="Tables\Result.sql" />
-    <Build Include="Tables\ResultItem.sql" />
-    <Build Include="Tables\ResultGroup.sql" />
-    <Build Include="Tables\UserLevel.sql" />
+    <Build Include="dbo\Stored Procedures\UserUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\UserSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\UserLevelUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\UserLevelSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\UserLevelInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\UserLevelDeleteCommand.sql" />
+    <Build Include="dbo\Stored Procedures\UserInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\UserDeleteCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemGroupUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemGroupSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemGroupInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemGroupDeleteCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardItemDeleteCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ScorecardDeleteCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultItemUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultItemSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultItemInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultItemDeleteCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultGroupUpdateCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultGroupSelectCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultGroupInsertCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultGroupDeleteCommand.sql" />
+    <Build Include="dbo\Stored Procedures\ResultDeleteCommand.sql" />
+    <Build Include="dbo\Tables\Result.sql" />
+    <Build Include="dbo\Tables\ResultGroup.sql" />
+    <Build Include="dbo\Tables\ResultItem.sql" />
+    <Build Include="dbo\Tables\Scorecard.sql" />
+    <Build Include="dbo\Tables\ScorecardItem.sql" />
+    <Build Include="dbo\Tables\ScorecardItemGroup.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\UserLevel.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Scorecard Database.refactorlog" />
