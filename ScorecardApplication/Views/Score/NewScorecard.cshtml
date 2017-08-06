@@ -1,5 +1,129 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "New Scorecard";
 }
+@model ScorecardApplication.Models.PersonViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12">
+                @using (Html.BeginForm())
+                {
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            <label for="scorecardname">Scorecard Name:</label>
+                            <input id="scorecardname" name="scorecardname" type="text" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-3">
+                        <label for="scorecardtype">Call Reference:</label>
+                        <input id="callreference" name="callreference" type="text" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="desription">Description:</label>
+                        <input id="desription" name="desription" type="text" class="form-control" />
+                    </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input id="btnSaveHeader" type="submit" value="Save" class="btn btn-default" />
+                            </div>
+                        </div>
 
 
+                    <table id="ScorecardItems">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(m => m.ScorecardItems.FirstOrDefault().question)</th>
+                                <th>@Html.DisplayNameFor(m => m.ScorecardItems.FirstOrDefault().answer)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.ScorecardItems.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="ScorecardItems.Index" value="@i">
+                                        @Html.TextBoxFor(m => m.ScorecardItems[i].question, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.ScorecardItems[i].question)
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.ScorecardItems[i].answer, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.ScorecardItems[i].answer)
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn delete">Delete</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <button type="button" id="add" class="btn">Add Job</button>
+
+                }
+           
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <table id="newrow" style="display:none;">
+        <tr>
+            <td>
+                <input type="hidden" name="ScorecardItems.Index" value="%">
+                <input class="form-control" data-val="true" data-val-required="You must enter a question." name="ScorecardItems[#].question" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="ScorecardItems[#].question" data-valmsg-replace="true"></span>
+            </td>
+            <td>
+                <input class="form-control" data-val="true" data-val-required="You must enter an answer." name="ScorecardItems[#].answer" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="ScorecardItems[#].answer" data-valmsg-replace="true"></span>
+            </td>
+            <td>
+                <button type="button" class="btn delete">Delete</button>
+            </td>
+        </tr>
+    </table>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <script type="text/javascript">
+			var form = $('form');
+        var table = $('#ScorecardItems tbody');
+			var newrow= $('#newrow');
+
+        	$('#add').click(function () {
+            	var index = (new Date()).getTime();
+            	var clone = newrow.find('tr').clone();
+            	clone.html($(clone).html().replace(/\[#\]/g, '[' + index + ']'));
+            	clone.html($(clone).html().replace(/"%"/g, '"' + index + '"'));
+            	table.append(clone);
+				form.data('validator', null);
+  				$.validator.unobtrusive.parse(form)
+        	});
+            $('#ScorecardItems').on('click', '.delete', function() {
+				$(this).closest('tr').remove();
+			});
+
+    </script>
+
+
+</body>
+</html>

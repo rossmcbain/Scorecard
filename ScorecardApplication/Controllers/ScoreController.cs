@@ -13,5 +13,24 @@ namespace ScorecardApplication.Controllers
         {
             return View();
         }
+
+        // GET: NewScorecard
+        public ActionResult NewScorecard()
+        {
+            Models.PersonViewModel model = new Models.PersonViewModel();
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult NewScorecard(Models.PersonViewModel model)
+        {
+
+            //foreach (var key in formCollection.AllKeys)
+            //{
+            //    var value = formCollection[key];
+            //}
+
+            return View(model);
+        }
+
     }
 }
