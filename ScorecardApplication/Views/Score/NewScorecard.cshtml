@@ -31,11 +31,11 @@
                             <input id="desription" name="desription" type="text" class="form-control" />
                         </div>
                     </div>
-              
 
-                        for (int j = 0; j < Model.scorecardgroups.Count; j++)
-                        {
-                        <hr />
+                    <hr />
+                    for (int j = 0; j < Model.scorecardgroups.Count; j++)
+                    {
+
                         string groupname = "group" + j.ToString();
                         string tablename = "table" + j.ToString();
                         string buttonname = "add" + j.ToString();
@@ -62,7 +62,10 @@
                                         <tr>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().answer)</th>
-                                            <th></th>
+                                            <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().questiontype)</th>
+                                            <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().possibleanswers)</th>
+                                            <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().autofail)</th>
+                                            <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().scoremodifier)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -79,6 +82,21 @@
                                                     @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].answer)
                                                 </td>
                                                 <td>
+                                                    @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].questiontype, ScorecardApplication.Models.ScorecardModel.ScorecardQuestionTypeList, new { @class = "form-control" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers)
+                                                </td>
+                                                <td>
+                                                    @Html.CheckBoxFor(m => m.scorecardgroups[j].scorecarditems[i].autofail, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].autofail)
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].scoremodifier, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].scoremodifier)
+                                                </td>
+                                                <td>
                                                     <button type="button" class="btn delete">Delete</button>
                                                 </td>
                                             </tr>
@@ -88,16 +106,21 @@
                                 <button type="button" id="@buttonname" class="btn" onclick="AddScoreCardRow(@buttonname)">Add Job</button>
                             </div>
                             <br />
-                            <input type="submit" name ="submit" id="submit" value="Add Group" />
 
+                   
 
                 <hr />
 
 
                     }
                     <div class="row">
-                        <div class="col-md-3">
-                            <input id="btnSaveHeader" type="submit" value="Save" class="btn btn-default" />
+                        <div class="col-md-1">
+                            <input type="submit" name="submit" class="btn" value="Add Group" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <input id="btnSaveHeader" type="submit" value="Save" class="btn" />
                         </div>
                     </div>
                 }@*Form End*@
@@ -125,6 +148,29 @@
                 <input class="form-control" data-val="true" data-val-required="You must enter an answer." name="scorecardgroups[g#].scorecarditems[#].answer" type="text" value="">
                 <span class="field-validation-valid" data-valmsg-for="scorecardgroups[g#].scorecarditems[#].answer" data-valmsg-replace="true"></span>
             </td>
+            @Model.comment
+            <td>
+                <select class="form-control" data-val="true"  name="scorecardgroups[g#].scorecarditems[#].questiontype" type="" value="">
+                    @foreach (SelectListItem item in ScorecardApplication.Models.ScorecardModel.ScorecardQuestionTypeList)
+                    {
+                     <option>@item.Text</option>
+                    }
+                </select>
+      
+            </td>
+            <td>
+                <input class="form-control" data-val="true" data-val-required="You must enter possible answers." name="scorecardgroups[g#].scorecarditems[#].possibleanswers" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="scorecardgroups[g#].scorecarditems[#].possibleanswers" data-valmsg-replace="true"></span>
+            </td>
+            <td>
+                <input class="form-control" data-val="true"  name="scorecardgroups[g#].scorecarditems[#].autofail" type="checkbox" value="">
+         
+            </td>
+            <td>
+                <input class="form-control" data-val="true"  name="scorecardgroups[g#].scorecarditems[#].scoremodifier" type="text" value="">
+               
+            </td>
+
             <td>
                 <button type="button" class="btn delete">Delete</button>
             </td>

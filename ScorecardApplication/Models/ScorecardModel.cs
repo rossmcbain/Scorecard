@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-
+using System.Web.Mvc;
 
 namespace ScorecardApplication.Models
 {
@@ -16,7 +16,7 @@ namespace ScorecardApplication.Models
         public string scorecarddescription { get; set; }
         [Display(Name = "Pass Mark")]
         public int passmark { get; set; }
-        public List <ScorecardGroup> scorecardgroups { get; set; }
+        public List<ScorecardGroup> scorecardgroups { get; set; }
 
         [Display(Name = "Date Scored")]
         public DateTime datescored { get; set; }
@@ -28,15 +28,23 @@ namespace ScorecardApplication.Models
         public string comment { get; set; }
         [Display(Name = "Scored By")]
         public User scoredby { get; set; }
+
+        public static List<SelectListItem> ScorecardQuestionTypeList { get => scorecardQuestionTypeList; set => scorecardQuestionTypeList = value; }
+
+        private static List<SelectListItem> scorecardQuestionTypeList = new List<SelectListItem>()
+    {
+        new SelectListItem() {Text="Pass/Fail", Value="PassFail"},
+        new SelectListItem() {Text="Multiple Choice", Value="MultipleChoice"}
+    };
     }
 
 
     public class ScorecardGroup
     {
         public ScorecardGroup()
-            {
+        {
             scorecarditems = new List<ScorecardItem>();
-            }
+        }
 
         [Required]
         [Display(Name = "Group Name")]
@@ -57,27 +65,35 @@ namespace ScorecardApplication.Models
 
     public class ScorecardItem
     {
-        
+
         [Display(Name = "Question")]
         public string question { get; set; }
+        [Display(Name = "Question Type")]
         public ScorecardQuestionType questiontype { get; set; }
+        [Display(Name = "Possible Answers")]
         public List<string> possibleanswers { get; set; }
+        [Display(Name = "Score Modifier")]
         public int scoremodifier { get; set; }
+        [Display(Name = "Auto Fail")]
         public bool autofail { get; set; }
 
         [Display(Name = "Answer")]
         public string answer { get; set; }
+        [Display(Name = "Score")]
         public int score { get; set; }
+        [Display(Name = "Comment")]
         public string comment { get; set; }
     }
 
 
     public enum ScorecardQuestionType
     {
-        PassFail,
+       PassFail,
         MultipleChoice
     }
 
+  
+    
     public class User
     {
         public string username;
