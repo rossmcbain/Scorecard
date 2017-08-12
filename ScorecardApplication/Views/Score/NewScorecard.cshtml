@@ -36,7 +36,12 @@
                         for (int j = 0; j < Model.scorecardgroups.Count; j++)
                         {
                         <hr />
-                            <div>
+                        string groupname = "group" + j.ToString();
+                        string tablename = "table" + j.ToString();
+                        string buttonname = "add" + j.ToString();
+
+
+                            <div id="@groupname">
 
                                 <div class="row">
                                     <div class="col-md-3">
@@ -52,7 +57,7 @@
 
 
                                
-                                <table id="ScorecardItems">
+                                <table id="@tablename">
                                     <thead>
                                         <tr>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
@@ -80,9 +85,15 @@
                                         }
                                     </tbody>
                                 </table>
-                                <button type="button" id="add" class="btn">Add Job</button>
+                                <button type="button" id="@buttonname" class="btn" onclick="AddScoreCardRow(@buttonname)">Add Job</button>
                             </div>
-                            <hr />
+                            <br />
+                            <input type="submit" name ="submit" id="submit" value="Add Group" />
+
+
+                <hr />
+
+
                     }
                     <div class="row">
                         <div class="col-md-3">
@@ -106,13 +117,13 @@
     <table id="newrow" style="display:none;">
         <tr>
             <td>
-                <input type="hidden" name="ScorecardItems.Index" value="%">
-                <input class="form-control" data-val="true" data-val-required="You must enter a question." name="ScorecardItems[#].question" type="text" value="">
-                <span class="field-validation-valid" data-valmsg-for="ScorecardItems[#].question" data-valmsg-replace="true"></span>
+                <input type="hidden" name="scorecardgroups[g#].scorecarditems.Index" value="%">
+                <input class="form-control" data-val="true" data-val-required="You must enter a question." name="scorecardgroups[g#].scorecarditems[#].question" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="scorecardgroups[g#].scorecarditems[#].question" data-valmsg-replace="true"></span>
             </td>
             <td>
-                <input class="form-control" data-val="true" data-val-required="You must enter an answer." name="ScorecardItems[#].answer" type="text" value="">
-                <span class="field-validation-valid" data-valmsg-for="ScorecardItems[#].answer" data-valmsg-replace="true"></span>
+                <input class="form-control" data-val="true" data-val-required="You must enter an answer." name="scorecardgroups[g#].scorecarditems[#].answer" type="text" value="">
+                <span class="field-validation-valid" data-valmsg-for="scorecardgroups[g#].scorecarditems[#].answer" data-valmsg-replace="true"></span>
             </td>
             <td>
                 <button type="button" class="btn delete">Delete</button>
@@ -129,7 +140,7 @@
 
     <script type="text/javascript">
 			var form = $('form');
-        var table = $('#ScorecardItems tbody');
+       // var table = $('#ScorecardItems tbody');
 			var newrow= $('#newrow');
 
         	$('#add').click(function () {
@@ -143,7 +154,26 @@
         	});
             $('#ScorecardItems').on('click', '.delete', function() {
 				$(this).closest('tr').remove();
-			});
+            });
+
+            $('.delete').click(function (e) { 
+                $(this).closest('tr').remove();
+            });
+
+            function AddScoreCardRow(e)
+            {
+                var groupindex = e.id.replace('add', '')
+                var table = $('#table'+ groupindex +' tbody');
+                var index = (new Date()).getTime();
+                var clone = newrow.find('tr').clone();
+                clone.html($(clone).html().replace(/\[#\]/g, '[' + index + ']'));
+                clone.html($(clone).html().replace(/\[g#\]/g, '[' + groupindex + ']'));
+                clone.html($(clone).html().replace(/"%"/g, '"' + index + '"'));
+                table.append(clone);
+                form.data('validator', null);
+                $.validator.unobtrusive.parse(form)
+
+            }
 
     </script>
 

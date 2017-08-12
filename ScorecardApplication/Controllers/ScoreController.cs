@@ -18,22 +18,27 @@ namespace ScorecardApplication.Controllers
         // GET: NewScorecard
         public ActionResult NewScorecard()
         {
+
+
             Models.ScorecardModel model = new Models.ScorecardModel();
             model.scorecardgroups = new List<ScorecardGroup>();
             model.scorecardgroups.Add(new ScorecardGroup { groupname = "Call Opening" });
+        
             return View(model);
         }
         [HttpPost]
-        public ActionResult NewScorecard(Models.ScorecardModel model)
+        public ActionResult NewScorecard(Models.ScorecardModel model, string submit)
         {
-
-            //foreach (var key in formCollection.AllKeys)
-            //{
-            //    var value = formCollection[key];
-            //}
-
-            return View(model);
+            if (submit == "Add Group")
+            {
+                model.scorecardgroups.Add(new ScorecardGroup { groupname = "New Group" });
+      
+            }
+                return View(model);
         }
+         
+ 
+
 
     }
 }
