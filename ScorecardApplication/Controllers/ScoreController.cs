@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScorecardApplication.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,11 +18,13 @@ namespace ScorecardApplication.Controllers
         // GET: NewScorecard
         public ActionResult NewScorecard()
         {
-            Models.PersonViewModel model = new Models.PersonViewModel();
+            Models.ScorecardModel model = new Models.ScorecardModel();
+            model.scorecardgroups = new List<ScorecardGroup>();
+            model.scorecardgroups.Add(new ScorecardGroup { groupname = "Call Opening" });
             return View(model);
         }
         [HttpPost]
-        public ActionResult NewScorecard(Models.PersonViewModel model)
+        public ActionResult NewScorecard(Models.ScorecardModel model)
         {
 
             //foreach (var key in formCollection.AllKeys)

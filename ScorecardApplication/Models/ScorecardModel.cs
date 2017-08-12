@@ -9,28 +9,48 @@ namespace ScorecardApplication.Models
 {
     public class ScorecardModel
     {
-        public string scorecardname;
-        public string scorecarddescription;
-        public int passmark;
-        public List <ScorecardGroup> scorecardgroups;
+        [Required]
+        [Display(Name = "SCorecard Name")]
+        public string scorecardname { get; set; }
+        [Display(Name = "Scorecard Description")]
+        public string scorecarddescription { get; set; }
+        [Display(Name = "Pass Mark")]
+        public int passmark { get; set; }
+        public List <ScorecardGroup> scorecardgroups { get; set; }
 
-        public DateTime datescored;
-        public string callreference;
-        public int score;
-        public string comment;
-        public User scoredby;
+        [Display(Name = "Date Scored")]
+        public DateTime datescored { get; set; }
+        [Display(Name = "Call Reference")]
+        public string callreference { get; set; }
+        [Display(Name = "Score")]
+        public int score { get; set; }
+        [Display(Name = "Comment")]
+        public string comment { get; set; }
+        [Display(Name = "Scored By")]
+        public User scoredby { get; set; }
     }
 
 
     public class ScorecardGroup
     {
-        public string groupname;
-        public string groupdescription;
-        public int pasmark;
-        public List<ScorecardItem> scorecarditems;
+        public ScorecardGroup()
+            {
+            scorecarditems = new List<ScorecardItem>();
+            }
 
-        public int score;
-        public string comment;
+        [Required]
+        [Display(Name = "Group Name")]
+        public string groupname { get; set; }
+        [Display(Name = "Group Description")]
+        public string groupdescription { get; set; }
+        [Display(Name = "Group Pass Mark")]
+        public int pasmark { get; set; }
+        public List<ScorecardItem> scorecarditems { get; set; }
+
+        [Display(Name = "Group Score")]
+        public int score { get; set; }
+        [Display(Name = "Group Comment")]
+        public string comment { get; set; }
 
     }
 
@@ -40,15 +60,15 @@ namespace ScorecardApplication.Models
         
         [Display(Name = "Question")]
         public string question { get; set; }
-        public ScorecardQuestionType questiontype;
-        public List<string> possibleanswers;
-        public int scoremodifier;
-        public bool autofail;
+        public ScorecardQuestionType questiontype { get; set; }
+        public List<string> possibleanswers { get; set; }
+        public int scoremodifier { get; set; }
+        public bool autofail { get; set; }
 
         [Display(Name = "Answer")]
         public string answer { get; set; }
-        public int score;
-        public string comment;
+        public int score { get; set; }
+        public string comment { get; set; }
     }
 
 

@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "New Scorecard";
 }
-@model ScorecardApplication.Models.PersonViewModel
+@model ScorecardApplication.Models.ScorecardModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,54 +22,77 @@
                         </div>
                     </div>
                     <div class="row">
-                    <div class="col-md-3">
-                        <label for="scorecardtype">Call Reference:</label>
-                        <input id="callreference" name="callreference" type="text" class="form-control" />
-                    </div>
-                    <div class="col-md-3">
-                        <label for="desription">Description:</label>
-                        <input id="desription" name="desription" type="text" class="form-control" />
-                    </div>
+                        <div class="col-md-3">
+                            <label for="scorecardtype">Call Reference:</label>
+                            <input id="callreference" name="callreference" type="text" class="form-control" />
                         </div>
+                        <div class="col-md-3">
+                            <label for="desription">Description:</label>
+                            <input id="desription" name="desription" type="text" class="form-control" />
+                        </div>
+                    </div>
+              
+
+                        for (int j = 0; j < Model.scorecardgroups.Count; j++)
+                        {
+                        <hr />
+                            <div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(m => m.scorecardgroups[j].groupname)
+                                        @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(m => m.scorecardgroups[j].groupdescription)
+                                        @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <br />
+
+
+                               
+                                <table id="ScorecardItems">
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
+                                            <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().answer)</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.scorecardgroups[j].scorecarditems.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" name="ScorecardItems.Index" value="@i">
+                                                    @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].question, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].question)
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].answer, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].answer)
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn delete">Delete</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <button type="button" id="add" class="btn">Add Job</button>
+                            </div>
+                            <hr />
+                    }
                     <div class="row">
                         <div class="col-md-3">
                             <input id="btnSaveHeader" type="submit" value="Save" class="btn btn-default" />
-                            </div>
                         </div>
+                    </div>
+                }@*Form End*@
+                
 
 
-                    <table id="ScorecardItems">
-                        <thead>
-                            <tr>
-                                <th>@Html.DisplayNameFor(m => m.ScorecardItems.FirstOrDefault().question)</th>
-                                <th>@Html.DisplayNameFor(m => m.ScorecardItems.FirstOrDefault().answer)</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for (int i = 0; i < Model.ScorecardItems.Count; i++)
-                            {
-                                <tr>
-                                    <td>
-                                        <input type="hidden" name="ScorecardItems.Index" value="@i">
-                                        @Html.TextBoxFor(m => m.ScorecardItems[i].question, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.ScorecardItems[i].question)
-                                    </td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.ScorecardItems[i].answer, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.ScorecardItems[i].answer)
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn delete">Delete</button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                    <button type="button" id="add" class="btn">Add Job</button>
-
-                }
-           
             </div>
         </div>
 
