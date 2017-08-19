@@ -9,3 +9,5 @@ AS
 INSERT INTO [dbo].[Scorecard] ([ScorecardName], [ScorecardDescription], [PassMark]) VALUES (@ScorecardName, @ScorecardDescription, @PassMark);
 	
 SELECT ScorecardID, ScorecardName, ScorecardDescription, PassMark FROM Scorecard WHERE (ScorecardID = SCOPE_IDENTITY())
+
+RETURN SCOPE_IDENTITY()

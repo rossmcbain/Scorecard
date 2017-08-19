@@ -9,8 +9,9 @@ namespace ScorecardApplication.Models
 {
     public class ScorecardModel
     {
+        public int scorecardid { get; set; }
         [Required]
-        [Display(Name = "SCorecard Name")]
+        [Display(Name = "Scorecard Name")]
         public string scorecardname { get; set; }
         [Display(Name = "Scorecard Description")]
         public string scorecarddescription { get; set; }
@@ -22,12 +23,24 @@ namespace ScorecardApplication.Models
         public DateTime datescored { get; set; }
         [Display(Name = "Call Reference")]
         public string callreference { get; set; }
+        public string recording { get; set; }
         [Display(Name = "Score")]
         public int score { get; set; }
         [Display(Name = "Comment")]
         public string comment { get; set; }
         [Display(Name = "Scored By")]
         public User scoredby { get; set; }
+        [Display(Name = "Agent Scored")]
+        public User agentscored { get; set; }
+
+        //[Display(Name = "Call Records")]
+        public static List<SelectListItem> Callrecordinglist { get => callrecordinglist; set => callrecordinglist = value; }
+
+        private static List<SelectListItem> callrecordinglist = new List<SelectListItem>()
+    {
+        new SelectListItem() {Text="Pass/Fail", Value="PassFail"},
+        new SelectListItem() {Text="Multiple Choice", Value="MultipleChoice"}
+    };
 
         public static List<SelectListItem> ScorecardQuestionTypeList { get => scorecardQuestionTypeList; set => scorecardQuestionTypeList = value; }
 
@@ -36,6 +49,16 @@ namespace ScorecardApplication.Models
         new SelectListItem() {Text="Pass/Fail", Value="PassFail"},
         new SelectListItem() {Text="Multiple Choice", Value="MultipleChoice"}
     };
+
+
+        public static List<SelectListItem> AutoFailList { get => autoFailList; set => autoFailList = value; }
+
+        private static List<SelectListItem> autoFailList = new List<SelectListItem>()
+    {
+        new SelectListItem() {Text="Yes", Value="Yes"},
+        new SelectListItem() {Text="No", Value="No"}
+    };
+
     }
 
 
@@ -69,13 +92,13 @@ namespace ScorecardApplication.Models
         [Display(Name = "Question")]
         public string question { get; set; }
         [Display(Name = "Question Type")]
-        public ScorecardQuestionType questiontype { get; set; }
+        public string questiontype { get; set; }
         [Display(Name = "Possible Answers")]
-        public List<string> possibleanswers { get; set; }
+        public string possibleanswers { get; set; }
         [Display(Name = "Score Modifier")]
         public int scoremodifier { get; set; }
         [Display(Name = "Auto Fail")]
-        public bool autofail { get; set; }
+        public string autofail { get; set; }
 
         [Display(Name = "Answer")]
         public string answer { get; set; }
@@ -83,6 +106,8 @@ namespace ScorecardApplication.Models
         public int score { get; set; }
         [Display(Name = "Comment")]
         public string comment { get; set; }
+
+        public List<string> possibleanswerslist { get; set; }
     }
 
 
@@ -138,6 +163,13 @@ namespace ScorecardApplication.Models
         public string JobRole { get; set; }
         [Display(Name = "Percentage")]
         public decimal SplitPercentage { get; set; }
+    }
+
+
+    public class Results
+    {
+        public List<string> ListOfTemplates { get; set; }
+        public List<ScorecardModel> ListOfResults { get; set; }
     }
 
 }

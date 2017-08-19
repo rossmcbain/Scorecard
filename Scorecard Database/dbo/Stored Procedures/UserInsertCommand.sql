@@ -11,3 +11,5 @@ AS
 INSERT INTO [dbo].[User] ([Username], [FirstName], [Surname], [EmailAddress], [UserLevelID]) VALUES (@Username, @FirstName, @Surname, @EmailAddress, @UserLevelID);
 	
 SELECT UserID, Username, FirstName, Surname, EmailAddress, UserLevelID FROM [User] WHERE (UserID = SCOPE_IDENTITY())
+
+RETURN SCOPE_IDENTITY()

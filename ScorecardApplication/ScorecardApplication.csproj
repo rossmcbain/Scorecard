@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -153,6 +154,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ScoreController.cs" />
+    <Compile Include="Datasets\dsScorecard.cs">
+      <DependentUpon>dsScorecard.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Datasets\dsScorecard.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

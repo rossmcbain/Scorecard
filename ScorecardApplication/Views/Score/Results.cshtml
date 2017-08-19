@@ -1,5 +1,80 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model ScorecardApplication.Models.Results
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+@using (Html.BeginForm())
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12">
+             
+                    <div class="row">
 
+                        <label for="scorecardname">Scorecard Name:</label>
+                        <input id="scorecardname" name="scorecardname" type="text" class="form-control" />
+                        <input type="submit" name="submit" class="btn" value="Load" />
+
+                        </div>
+                </div>
+            </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    Date Scored
+                </td>
+                <td>
+                    Agent Scored
+                </td>
+                <td>
+                    Scored By
+                </td>
+                <td>
+                    Result
+                </td>
+                <td>
+                
+                </td>
+            </tr>
+        </thead>
+        @for (int j = 0; j < Model.ListOfResults.Count; j++)
+        {
+            <tr>
+                <td>
+                    @Model.ListOfResults[j].datescored.ToShortDateString();
+                </td>
+                <td>
+                    @Model.ListOfResults[j].agentscored;
+                </td>
+                <td>
+                    @Model.ListOfResults[j].scoredby;
+                </td>
+                <td>
+                    @Model.ListOfResults[j].score.ToString();
+                </td>
+                <td>
+                    <a href="/Score/ScoreCardResult?ScoreCardID=@Model.ListOfResults[j].scorecardid">Load Scorecard</a>
+                </td>
+
+
+            </tr>
+
+
+        }
+    </table>
+
+
+
+}
+    </body>
+</html>
 

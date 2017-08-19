@@ -10,3 +10,5 @@ AS
 INSERT INTO [dbo].[ScorecardItemGroup] ([ScorecardID], [GroupName], [Description], [PassScore]) VALUES (@ScorecardID, @GroupName, @Description, @PassScore);
 	
 SELECT ScorecardItemGroupID, ScorecardID, GroupName, Description, PassScore FROM ScorecardItemGroup WHERE (ScorecardItemGroupID = SCOPE_IDENTITY())
+
+RETURN SCOPE_IDENTITY()

@@ -13,3 +13,5 @@ AS
 INSERT INTO [dbo].[Result] ([AgentID], [ScorerID], [ScorecardID], [DateScored], [CallReference], [Score], [Comment]) VALUES (@AgentID, @ScorerID, @ScorecardID, @DateScored, @CallReference, @Score, @Comment);
 	
 SELECT ResultID, AgentID, ScorerID, ScorecardID, DateScored, CallReference, Score, Comment FROM Result WHERE (ResultID = SCOPE_IDENTITY())
+
+RETURN SCOPE_IDENTITY()

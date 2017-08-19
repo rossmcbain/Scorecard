@@ -1,44 +1,144 @@
 ﻿@{
-    ViewBag.Title = "Scorecard";
+    ViewBag.Title = "New Scorecard";
 }
+@model ScorecardApplication.Models.ScorecardModel
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title></title>
 </head>
 <body>
+@using (Html.BeginForm())
+{ 
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-md-12">
-                <form class="form-inline">
-                    <form-group>
-                        <label for="scorecardtype">Scorecard Template:</label>
-                        <select name="scorecardtype" id="scorecardtype" class="form-control selectpicker show-tick">
 
-                            @*@foreach (string row in Model.ScorecardList)
-                                {
-                                    <option value="row.ScorecardID.ToString">row.ScorecardDescription</option>
-                                }*@
+                
+                <div class="row">
+                    <div class="col-md-3">
 
-                        </select>
-                    </form-group>
-                    <form-group>
-                        <label for="scorecardtype">Call Reference:</label>
-                        <input id="callreference" name="callreference" type="text" class="form-control"/>
-                    </form-group>
-                    <input id="btnLoad" type="button" value="Load" class="btn btn-default" />
-                </form>
+                        <label for="scorecardname">Scorecard Name:</label>
+                        <input id="scorecardname" name="scorecardname" type="text" class="form-control" />
+                        @Html.LabelFor(m => m.scorecardname)
+                        @Html.TextBoxFor(m => m.scorecardname, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.callreference)
+                        @Html.TextBoxFor(m => m.callreference, new { @class = "form-control" })
+                        <input type="submit" name="submit" class="btn" value="Load" />
+                    </div>
+                </div>
+                <div class="row">
 
-                <audio src="~/Content/Alex_Cohen_-_Good_Old_Times.mp3" autoplay controls id="audio1">
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.scorecarddescription)
+                        @Html.TextBoxFor(m => m.scorecarddescription, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        @*@Html.LabelFor(m => m.CallRecordingList)*@
+                        @Html.DropDownListFor(m => m.recording, ScorecardApplication.Models.ScorecardModel.Callrecordinglist, new { @class = "form-control" })
 
-                    audio is not supported.
-
-                </audio>
-
+                        
+                    </div>
+                </div>
+                <div class="row">
+                    <audio src="audio.mp3" type="audio/mp3" controls="controls"/>
+                </div>
             </div>
         </div>
     </div>
+
+    //Scorecard Start
+
+    if (Model != null)
+    {
+        for (int j = 0; j < Model.scorecardgroups.Count; j++)
+        {
+
+            string groupname = "group" + j.ToString();
+            string tablename = "table" + j.ToString();
+
+
+
+        <div id="@groupname">
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.scorecardgroups[j].groupname)
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.scorecardgroups[j].groupdescription)
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+
+
+
+            <table id="@tablename">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().answer)</th>
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().questiontype)</th>
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().possibleanswers)</th>
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().autofail)</th>
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().scoremodifier)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.scorecardgroups[j].scorecarditems.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" name="ScorecardItems.Index" value="@i">
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].question, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].question)
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].answer, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].answer)
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].questiontype, ScorecardApplication.Models.ScorecardModel.ScorecardQuestionTypeList, new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers)
+                            </td>
+                            <td>
+                                @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].autofail, ScorecardApplication.Models.ScorecardModel.AutoFailList, new { @class = "form-control" })
+
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].scoremodifier, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].scoremodifier)
+                            </td>
+                            <td>
+                    
+                            </td>
+                        </tr>
+                    }
+    
+                </tbody>
+            </table>
+          
+        </div>
+                            <br />
+
+
+
+                            <hr />
+
+
+        }
+
+    }
+
+
+}
 </body>
 </html>
