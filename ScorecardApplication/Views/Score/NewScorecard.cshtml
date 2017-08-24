@@ -13,18 +13,20 @@
                         <div class="col-md-3">
                             @Html.LabelFor(m => m.scorecardname)
                             @Html.TextBoxFor(m => m.scorecardname, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            @Html.LabelFor(m => m.callreference)
-                            @Html.TextBoxFor(m => m.callreference, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.scorecardname);
                         </div>
                         <div class="col-md-3">
                             @Html.LabelFor(m => m.scorecarddescription)
                             @Html.TextBoxFor(m => m.scorecarddescription, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.scorecarddescription);
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.passmark)
+                            @Html.TextBoxFor(m => m.passmark, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.passmark);
                         </div>
                     </div>
+
 
                     <hr />
                     for (int j = 0; j < Model.scorecardgroups.Count; j++)
@@ -41,12 +43,20 @@
                                     <div class="col-md-3">
                                         @Html.LabelFor(m => m.scorecardgroups[j].groupname)
                                         @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.scorecardgroups[j].groupname)
                                     </div>
                                     <div class="col-md-3">
                                         @Html.LabelFor(m => m.scorecardgroups[j].groupdescription)
                                         @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.scorecardgroups[j].groupdescription)
+                                    </div>
+                                    <div class="col-md-3">
+                                        @Html.LabelFor(m => m.scorecardgroups[j].pasmark)
+                                        @Html.TextBoxFor(m => m.scorecardgroups[j].pasmark, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.scorecardgroups[j].pasmark);
                                     </div>
                                 </div>
+
                                 <br />
 
 
@@ -117,6 +127,7 @@
                             <input type="submit" name="submit" class="btn" value="Add Group" />
                         </div>
                     </div>
+                    <br/>
                     <div class="row">
                         <div class="col-md-1">
                             <input type="submit" name="submit" value="Save" class="btn" />

@@ -21,26 +21,30 @@ namespace ScorecardApplication.Models
 
         [Display(Name = "Date Scored")]
         public DateTime datescored { get; set; }
+        [Required]
         [Display(Name = "Call Reference")]
         public string callreference { get; set; }
         public string recording { get; set; }
+        public string recordingfilename { get; set; }
         [Display(Name = "Score")]
         public int score { get; set; }
         [Display(Name = "Comment")]
         public string comment { get; set; }
         [Display(Name = "Scored By")]
         public User scoredby { get; set; }
+        [Required]
         [Display(Name = "Agent Scored")]
         public User agentscored { get; set; }
 
         //[Display(Name = "Call Records")]
-        public static List<SelectListItem> Callrecordinglist { get => callrecordinglist; set => callrecordinglist = value; }
+        public  List<SelectListItem> Callrecordinglist { get => callrecordinglist; set => callrecordinglist = value; }
 
-        private static List<SelectListItem> callrecordinglist = new List<SelectListItem>()
-    {
-        new SelectListItem() {Text="Pass/Fail", Value="PassFail"},
-        new SelectListItem() {Text="Multiple Choice", Value="MultipleChoice"}
-    };
+        private List<SelectListItem> callrecordinglist = new List<SelectListItem>();
+
+
+        public List<SelectListItem> ScorecardList { get => scorecardlist; set => scorecardlist = value; }
+
+        private List<SelectListItem> scorecardlist = new List<SelectListItem>();
 
         public static List<SelectListItem> ScorecardQuestionTypeList { get => scorecardQuestionTypeList; set => scorecardQuestionTypeList = value; }
 
@@ -88,7 +92,7 @@ namespace ScorecardApplication.Models
 
     public class ScorecardItem
     {
-
+        [Required]
         [Display(Name = "Question")]
         public string question { get; set; }
         [Display(Name = "Question Type")]
