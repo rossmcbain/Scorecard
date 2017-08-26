@@ -2,13 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model ScorecardApplication.Models.Results
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-</head>
-<body>
+
 @using (Html.BeginForm())
 {
     <div class="panel panel-default">
@@ -17,8 +11,8 @@
              
                     <div class="row">
 
-                        <label for="scorecardname">Scorecard Name:</label>
-                        <input id="scorecardname" name="scorecardname" type="text" class="form-control" />
+                        @Html.LabelFor(m => m.ScorecardID)
+                        @Html.DropDownListFor(m => m.ScorecardID, Model.ListOfTemplates, new { @class = "form-control" })
                         <input type="submit" name="submit" class="btn" value="Load" />
 
                         </div>
@@ -26,6 +20,8 @@
             </div>
     </div>
 
+    if (Model.ListOfResults != null)
+    {
     <table>
         <thead>
             <tr>
@@ -72,9 +68,8 @@
         }
     </table>
 
-
+    }
 
 }
-    </body>
-</html>
+
 

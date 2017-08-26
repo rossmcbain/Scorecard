@@ -23,7 +23,7 @@ namespace ScorecardApplication.Models
         public DateTime datescored { get; set; }
         [Required]
         [Display(Name = "Call Reference")]
-        public string callreference { get; set; }
+        public int callreference { get; set; }
         public string recording { get; set; }
         public string recordingfilename { get; set; }
         [Display(Name = "Score")]
@@ -36,15 +36,12 @@ namespace ScorecardApplication.Models
         [Display(Name = "Agent Scored")]
         public User agentscored { get; set; }
 
-        //[Display(Name = "Call Records")]
-        public  List<SelectListItem> Callrecordinglist { get => callrecordinglist; set => callrecordinglist = value; }
 
-        private List<SelectListItem> callrecordinglist = new List<SelectListItem>();
+        public  List<SelectListItem> Callrecordinglist { get; set; }
 
+        public List<SelectListItem> ScorecardList { get; set; }
 
-        public List<SelectListItem> ScorecardList { get => scorecardlist; set => scorecardlist = value; }
-
-        private List<SelectListItem> scorecardlist = new List<SelectListItem>();
+        public List<SelectListItem> UserList { get; set; }
 
         public static List<SelectListItem> ScorecardQuestionTypeList { get => scorecardQuestionTypeList; set => scorecardQuestionTypeList = value; }
 
@@ -86,7 +83,7 @@ namespace ScorecardApplication.Models
         public int score { get; set; }
         [Display(Name = "Group Comment")]
         public string comment { get; set; }
-
+        public int groupid { get; set; }
     }
 
 
@@ -111,7 +108,8 @@ namespace ScorecardApplication.Models
         [Display(Name = "Comment")]
         public string comment { get; set; }
 
-        public List<string> possibleanswerslist { get; set; }
+        public List<SelectListItem> possibleanswerslist { get; set; }
+        public int itemid { get; set; }
     }
 
 
@@ -121,15 +119,31 @@ namespace ScorecardApplication.Models
         MultipleChoice
     }
 
-  
+    public class UserAccessRights
+    {
+        public  List<User> UserList;
+    }
     
     public class User
     {
+
+        public int userid;
+        [Required]
+        [Display(Name = "Username")]
         public string username;
+        [Required]
+        [Display(Name = "Firstname")]
         public string firstname;
+        [Required]
+        [Display(Name = "Surname")]
         public string surname;
+        public string fullname { get => firstname + " " + surname; }
+        [Required]
+        [Display(Name = "Email Address")]
         public string emailaddress;
         public UserLevel userlevel;
+
+        public List<SelectListItem> UserLevelList { get; set; }
 
     }
 
@@ -146,34 +160,15 @@ namespace ScorecardApplication.Models
         public List<string> ReportList;
     }
 
-    public class PersonViewModel
-    {
-        public PersonViewModel()
-        {
-            ScorecardItems = new List<ScorecardItem>();
-        }
-        [Required]
-        [Display(Name = "Name")]
-        public string scorecardname { get; set; }
-        public string callreference { get; set; }
-        public string desription { get; set; }
-        public List<ScorecardItem> ScorecardItems { get; set; }
-    }
 
-    public class PersonJobSplitViewModel
-    {
-        [Required]
-        [Display(Name = "Role")]
-        public string JobRole { get; set; }
-        [Display(Name = "Percentage")]
-        public decimal SplitPercentage { get; set; }
-    }
 
 
     public class Results
     {
-        public List<string> ListOfTemplates { get; set; }
-        public List<ScorecardModel> ListOfResults { get; set; }
+        [Display(Name = "Scorecard")]
+        public int ScorecardID { get; set; }
+        public List<SelectListItem> ListOfTemplates { get; set; }
+        public Dictionary <int, ScorecardModel> ListOfResults { get; set; }
     }
 
 }

@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "User";
+}
+@model ScorecardApplication.Models.User
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+    @Html.LabelFor(m => m.username)
+    @Html.TextBoxFor(m => m.username, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.username);
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.firstname)
+        @Html.TextBoxFor(m => m.firstname, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.firstname);
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.surname)
+        @Html.TextBoxFor(m => m.surname, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.surname);
+    </div>
+    <div class="row">
+        @Html.LabelFor(m => m.emailaddress)
+        @Html.TextBoxFor(m => m.emailaddress, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.emailaddress);
+    </div>
+}

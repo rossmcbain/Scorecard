@@ -1,5 +1,46 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "User Access Rights";
 }
+@model ScorecardApplication.Models.UserAccessRights
 
+<table>
+    <thead>
+        <tr>
+            <td>
+                Username
+            </td>
+            <td>
+                Firstname
+            </td>
+            <td>
+                Surname
+            </td>
+            <td>
+                User Level
+            </td>
+            <td>
+                Email Address
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    </thead>
+
+    @foreach (ScorecardApplication.Models.User User in Model.UserList)
+    {
+        <tr>
+            <td>@User.username</td>
+            <td>@User.firstname</td>
+            <td>@User.surname</td>
+            <td>@User.userlevel.decription</td>
+            <td>@User.emailaddress</td>
+            <td><a href="/home/EditUser?UserID=@User.userid">Edit</a></td>
+            
+        </tr>
+    }
+
+</table>
+<br/>
+<a href="/home/EditUser" class="btn btn-info" role="button">New User</a>
 

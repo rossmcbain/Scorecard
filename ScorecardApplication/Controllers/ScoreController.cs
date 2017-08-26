@@ -20,13 +20,30 @@ namespace ScorecardApplication.Controllers
             ScorecardTableAdapter ScorecardTA = new ScorecardTableAdapter();
             ScorecardTA.Fill(ScorecardDataset.Scorecard,null);
 
+            UserTableAdapter UserTA = new UserTableAdapter();
+            UserTA.Fill(ScorecardDataset.User);
+
+            model.agentscored = new User();
+            model.UserList = new List<SelectListItem>();
+            foreach(dsScorecard.UserRow UserRow in ScorecardDataset.User)
+            {
+                model.UserList.Add(new SelectListItem
+                {
+                    Text = UserRow.FirstName + " " + UserRow.Surname,
+                    Value = UserRow.UserID.ToString()
+                });
+            }
+
             List<string> ScorecardTemplates = new List<string>();
-            foreach(dsScorecard.ScorecardRow row in ScorecardDataset.Scorecard)
+            model.ScorecardList = new List<SelectListItem>();
+            foreach (dsScorecard.ScorecardRow row in ScorecardDataset.Scorecard)
             {
                 //ScorecardTemplates.Add(row.ScorecardDescription);\         
-                SelectListItem item = new SelectListItem();
-                item.Text = row.ScorecardName;
-                item.Value = row.ScorecardID.ToString();
+                SelectListItem item = new SelectListItem
+                {
+                    Text = row.ScorecardName,
+                    Value = row.ScorecardID.ToString()
+                };
                 model.ScorecardList.Add(item);
             }
             //ViewData["ScorecardList"] = ScorecardTemplates;
@@ -52,8 +69,8 @@ namespace ScorecardApplication.Controllers
                
 
                 RecordingSelectCommandTableAdapter RecordingTA = new RecordingSelectCommandTableAdapter();
-                RecordingTA.Fill(ScorecardDataset.RecordingSelectCommand,model.callreference);
-
+                RecordingTA.Fill(ScorecardDataset.RecordingSelectCommand,model.callreference.ToString());
+                model.Callrecordinglist = new List<SelectListItem>();
                foreach(dsScorecard.RecordingSelectCommandRow row in ScorecardDataset.RecordingSelectCommand.Rows)
                 {
 
@@ -67,6 +84,8 @@ namespace ScorecardApplication.Controllers
 
             if(submit == "Load Call")
             {
+               
+
                 string recordingpath = ScorecardApplication.Properties.Settings.Default.CallRecordingPath + model.recording;
                 model.recordingfilename = recordingpath.Replace(".vox", ".mp3");
 
@@ -76,12 +95,13 @@ namespace ScorecardApplication.Controllers
                 ScorecardItemTableAdapter SCItemTA = new ScorecardItemTableAdapter();
                
                 if(ScorecardDataset.ScorecardItemGroup.Rows.Count > 0) { model.scorecardgroups = new List<ScorecardGroup>(); }
-                foreach(dsScorecard.ScorecardItemGroupRow GroupRow in ScorecardDataset.ScorecardItemGroup.Rows)
+                foreach (dsScorecard.ScorecardItemGroupRow GroupRow in ScorecardDataset.ScorecardItemGroup.Rows)
                 {
-                    ScorecardGroup NewGroup = new ScorecardGroup();
-                    NewGroup.groupdescription = GroupRow.Description;
-                    NewGroup.groupname = GroupRow.GroupName;
-                    NewGroup.pasmark = GroupRow.PassScore;
+                    ScorecardGroup NewGroup = new ScorecardGroup() {
+                    groupid = GroupRow.ScorecardItemGroupID,
+                    groupdescription = GroupRow.Description,
+                    groupname = GroupRow.GroupName,
+                    pasmark = GroupRow.PassScore};
                     SCItemTA.Fill(ScorecardDataset.ScorecardItem, model.scorecardid,GroupRow.ScorecardItemGroupID);
 
                     if (ScorecardDataset.ScorecardItem.Rows.Count > 0) { NewGroup.scorecarditems = new List<ScorecardItem>(); }
@@ -89,10 +109,22 @@ namespace ScorecardApplication.Controllers
                     {
                         ScorecardItem NewItem = new ScorecardItem();
                         NewItem.autofail = ItemRow.AutoFail.ToString();
-                        NewItem.possibleanswers = ItemRow.PossibleAnswers;
+                        String[] PossibleAnswerArray = ItemRow.PossibleAnswers.Split(",".ToCharArray());
+                        NewItem.possibleanswerslist = new List<SelectListItem>();
+                        foreach(String possibleanswer in PossibleAnswerArray)
+                        {
+                            SelectListItem SelectItem = new SelectListItem
+                            {
+                                Text = possibleanswer,
+                                Value = possibleanswer
+                            };
+                            NewItem.possibleanswerslist.Add(SelectItem);
+                        };
                         NewItem.question = ItemRow.Question;
                         NewItem.questiontype = ItemRow.QuestionType;
+                        NewItem.itemid = ItemRow.ScorecardItemID;
                         NewGroup.scorecarditems.Add(NewItem);
+                        
 
                     }
 
@@ -101,6 +133,42 @@ namespace ScorecardApplication.Controllers
 
 
                
+            }
+
+            if(submit == "Save Scorecard")
+            {
+                ResultTableAdapter ResultTA = new ResultTableAdapter();
+                ResultItemTableAdapter ResultItemTA = new ResultItemTableAdapter();
+                ResultGroupTableAdapter ResultGroupTA = new ResultGroupTableAdapter();
+
+                int ScorerID  = 0;
+                foreach(dsScorecard.UserRow row in ScorecardDataset.User)
+                {
+                    if (row.Username == User.Identity.Name)
+                    {
+                        ScorerID = row.UserID;
+                    }
+                }
+
+
+                int ResultID = ResultTA.Insert(model.agentscored.userid, ScorerID, model.scorecardid, DateTime.Now, model.callreference, 0, model.comment);
+
+               foreach(ScorecardGroup Group in model.scorecardgroups)
+                {
+                    int GroupID = 0;
+                    GroupID = ResultGroupTA.Insert(ResultID, Group.groupid, Group.comment, 0);
+                    
+                    foreach(ScorecardItem Item in Group.scorecarditems)
+                    {
+                        ResultItemTA.Insert(ResultID, Item.itemid, Item.answer, 0, Item.comment, GroupID);
+                    }
+
+
+                }
+
+
+
+
             }
 
             return View(model);
@@ -182,7 +250,63 @@ namespace ScorecardApplication.Controllers
       
         }
          
- 
+
+        public ActionResult Results()
+        {
+            Models.Results model = new Models.Results();
+            dsScorecard ScorecardDataset = new dsScorecard();
+            ScorecardTableAdapter ScorecardTA = new ScorecardTableAdapter();
+
+            ScorecardTA.Fill(ScorecardDataset.Scorecard,null);
+
+            model.ListOfTemplates = new List<SelectListItem>();
+
+            foreach(dsScorecard.ScorecardRow Row in ScorecardDataset.Scorecard)
+            {
+                model.ListOfTemplates.Add(new SelectListItem { Value = Row.ScorecardID.ToString(), Text = Row.ScorecardName });
+            }
+
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public ActionResult Results(Models.Results model)
+        {
+
+            UserTableAdapter UserTA = new UserTableAdapter();
+            ResultTableAdapter ResultTA = new ResultTableAdapter();
+            dsScorecard ScorecardDataset = new dsScorecard();
+
+            ResultTA.Fill(ScorecardDataset.Result,Convert.ToInt32(model.ScorecardID));
+            UserTA.Fill(ScorecardDataset.User);
+
+            model.ListOfResults = new Dictionary<int, ScorecardModel>();
+            foreach(dsScorecard.ResultRow Row in ScorecardDataset.Result)
+            {
+                dsScorecard.UserRow UserRow = ScorecardDataset.User.FindByUserID(Row.AgentID);
+                dsScorecard.UserRow ScorerRow = ScorecardDataset.User.FindByUserID(Row.ScorerID);
+                ScorecardModel Scorecard = new ScorecardModel
+                {
+                    score = Row.Score,
+                    agentscored = new User
+                    {
+                        firstname = UserRow.FirstName,
+                        surname = UserRow.Surname
+                    },
+                    scoredby = new User
+                    {
+                        firstname = ScorerRow.FirstName,
+                        surname = ScorerRow.Surname
+                    }
+                };
+                model.ListOfResults.Add(Row.ResultID, Scorecard);
+            }
+
+
+            return View(model);
+        }
 
 
     }

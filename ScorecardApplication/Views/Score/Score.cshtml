@@ -22,18 +22,17 @@
 
                         @Html.LabelFor(m => m.scorecardname)
                         @Html.DropDownListFor(m => m.scorecardid, Model.ScorecardList, new { @class = "form-control" })
-                        @*<select id="scorecardname" name="scorecardname" class="form-control">
-                            @foreach (string item in ScorecardTemplate)
-                            {
-                                <option>@item</option>
-                            }
-                        </select>*@
-
 
                     </div>
                     <div class="col-md-3">
                         @Html.LabelFor(m => m.callreference)
                         @Html.TextBoxFor(m => m.callreference, new { @class = "form-control" })
+
+                    </div>
+                    <div class="col-md-3">
+
+                        @Html.LabelFor(m => m.UserList)
+                        @Html.DropDownListFor(m => m.agentscored.userid, Model.UserList, new { @class = "form-control" })
 
                     </div>
                 </div>
@@ -129,11 +128,11 @@
             <div class="row">
                 <div class="col-md-3">
                     @Html.LabelFor(m => m.scorecardgroups[j].groupname)
-                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control", @readonly = "true" })
                 </div>
                 <div class="col-md-3">
                     @Html.LabelFor(m => m.scorecardgroups[j].groupdescription)
-                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control", @readonly = "true" })
                 </div>
             </div>
             <br />
@@ -144,11 +143,10 @@
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
+
                         <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().answer)</th>
-                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().questiontype)</th>
-                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().possibleanswers)</th>
-                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().autofail)</th>
-                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().scoremodifier)</th>
+                  
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().comment)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -157,27 +155,32 @@
                         <tr>
                             <td>
                                 <input type="hidden" name="ScorecardItems.Index" value="@i">
-                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].question, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].question)
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].question, new { @class = "form-control", @readonly = "true" })
                             </td>
+                     
                             <td>
-                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].answer, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].answer)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].questiontype, ScorecardApplication.Models.ScorecardModel.ScorecardQuestionTypeList, new { @class = "form-control" })
-                            </td>
-                            <td>
-                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers)
-                            </td>
-                            <td>
-                                @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].autofail, ScorecardApplication.Models.ScorecardModel.AutoFailList, new { @class = "form-control" })
+                                @if (Model.scorecardgroups[j].scorecarditems[i].question == "Multiple Choice")
+                                {
+                                    @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].answer,Model.scorecardgroups[j].scorecarditems[i].possibleanswerslist, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers)}
+                                else
+                                {
 
+
+                                    @Html.RadioButtonFor(m => m.scorecardgroups[j].scorecarditems[i].answer, "Pass", new { id = "scorecardgroups["+j.ToString()+"].scorecarditems["+i.ToString()+"].answerPass" })
+                                    <span>Pass</span>
+                                    @Html.RadioButtonFor(m => m.scorecardgroups[j].scorecarditems[i].answer, "Fail", new { id = "scorecardgroups[" + j.ToString() + "].scorecarditems[" + i.ToString() + "].answerFail" })
+                                    <span>Fail</span>
+                                }
                             </td>
+                         
                             <td>
-                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].scoremodifier, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].scoremodifier)
+                               
+                            </td>
+
+                            <td>
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].comment, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].comment)
                             </td>
                             <td>
                     
@@ -187,20 +190,29 @@
     
                 </tbody>
             </table>
-          
-        </div>
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.scorecardgroups[j].comment)
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].comment, new { @class = "form-control" })
+                </div>
+                </div>
+            </div>
                             <br />
 
 
 
-                            <hr />
 
-
-                }
-
-            }
+                <hr />
+                @Html.LabelFor(m => m.comment);
+            @Html.TextBoxFor(m => m.comment, new { @class = "form-control"})
+                
+                <input type="submit" name="submit" class="btn" value="Save Scorecard" />
 
         }
+
+    }
+
+}
 
 @*<script type="text/javascript">
 $(function(){
