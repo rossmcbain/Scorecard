@@ -8,21 +8,26 @@
     <div class="row">
     @Html.LabelFor(m => m.username)
     @Html.TextBoxFor(m => m.username, new { @class = "form-control" })
-    @Html.ValidationMessageFor(m => m.username);
+    @Html.ValidationMessageFor(m => m.username)
     </div>
     <div class="row">
         @Html.LabelFor(m => m.firstname)
         @Html.TextBoxFor(m => m.firstname, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.firstname);
+        @Html.ValidationMessageFor(m => m.firstname)
     </div>
     <div class="row">
         @Html.LabelFor(m => m.surname)
         @Html.TextBoxFor(m => m.surname, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.surname);
+        @Html.ValidationMessageFor(m => m.surname)
     </div>
     <div class="row">
         @Html.LabelFor(m => m.emailaddress)
         @Html.TextBoxFor(m => m.emailaddress, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.emailaddress);
+        @Html.ValidationMessageFor(m => m.emailaddress)
     </div>
+    <div class="row">
+        @Html.DropDownListFor(m=> m.userlevel.userlevelid, Model.UserLevelList, new { @class = "form-control"})
+    </div>
+
+    <input type="submit" name="submit" class="btn" value="Save" />
 }

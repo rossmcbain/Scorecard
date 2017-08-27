@@ -3,6 +3,8 @@
 }
 @model ScorecardApplication.Models.UserAccessRights
 
+@using (Html.BeginForm())
+{
 <table>
     <thead>
         <tr>
@@ -42,5 +44,7 @@
 
 </table>
 <br/>
-<a href="/home/EditUser" class="btn btn-info" role="button">New User</a>
+<input type="hidden" value=""/>
+<input type="submit" name="submit" class="btn" value="New User" />
 
+}

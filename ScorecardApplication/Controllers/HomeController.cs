@@ -22,6 +22,10 @@ namespace ScorecardApplication.Controllers
             return View();
         }
 
+        public ActionResult Admin()
+        {
+            return View();
+        }
 
         public ActionResult UserAccessRights()
         {
@@ -47,10 +51,46 @@ namespace ScorecardApplication.Controllers
                     emailaddress = UserRow.EmailAddress,
                     userlevel = UserLevelItem
                     
-                };
+                    
+                }; ;
+                model.UserList.Add(UserItem);
             }
 
             return View(model);
         }
+
+        [HttpPost]
+        public ActionResult UserAccessRights(Models.User model)
+        {
+            return (RedirectToAction("EditUser", "Home"));
+     
+        }
+        public ActionResult EditUser()
+        {
+            Models.User model = new Models.User();
+            dsScorecard ScorecardDataset = new dsScorecard();
+            UserLevelTableAdapter UserLevelTA = new UserLevelTableAdapter();
+            UserLevelTA.Fill(ScorecardDataset.UserLevel);
+            model.UserLevelList = new List<SelectListItem>();
+
+            foreach(dsScorecard.UserLevelRow Row in ScorecardDataset.UserLevel)
+            {
+                model.UserLevelList.Add(new SelectListItem { Text = Row.Description, Value = Row.UserLevelID.ToString() });
+            }
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public ActionResult EditUser(Models.User model)
+        {
+            UserTableAdapter UserTA = new UserTableAdapter();
+            UserTA.Insert(model.username, model.firstname, model.surname, model.emailaddress, model.userlevel.userlevelid);
+
+
+            return (RedirectToAction("UserAccessRights", "Home"));
+        }
+
     }
 }

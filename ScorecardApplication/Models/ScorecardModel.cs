@@ -127,21 +127,22 @@ namespace ScorecardApplication.Models
     public class User
     {
 
-        public int userid;
+        public int userid { get; set; }
         [Required]
         [Display(Name = "Username")]
-        public string username;
+        public string username { get; set; }
         [Required]
         [Display(Name = "Firstname")]
-        public string firstname;
+        public string firstname { get; set; }
         [Required]
         [Display(Name = "Surname")]
-        public string surname;
+        public string surname { get; set; }
         public string fullname { get => firstname + " " + surname; }
         [Required]
         [Display(Name = "Email Address")]
-        public string emailaddress;
-        public UserLevel userlevel;
+        public string emailaddress { get; set; }
+        public UserLevel userlevel { get => UserLevel; set => UserLevel = value; }
+        private UserLevel UserLevel = new UserLevel();
 
         public List<SelectListItem> UserLevelList { get; set; }
 
@@ -149,15 +150,16 @@ namespace ScorecardApplication.Models
 
     public class UserLevel
     {
-        public string decription;
-        public List<string> pagepermissions;
+        public int userlevelid { get; set; }
+        public string decription { get; set; }
+        public List<string> pagepermissions { get; set; }
     }
 
 
 
     public class Report
     {
-        public List<string> ReportList;
+        public List<string> ReportList { get; set; }
     }
 
 
