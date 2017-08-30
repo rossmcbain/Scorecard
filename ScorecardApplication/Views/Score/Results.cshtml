@@ -42,23 +42,23 @@
                 </td>
             </tr>
         </thead>
-        @for (int j = 0; j < Model.ListOfResults.Count; j++)
+        @foreach(KeyValuePair<int,ScorecardApplication.Models.ScorecardModel> item in Model.ListOfResults)
         {
             <tr>
                 <td>
-                    @Model.ListOfResults[j].datescored.ToShortDateString();
+                    @item.Value.datescored.ToShortDateString();
                 </td>
                 <td>
-                    @Model.ListOfResults[j].agentscored;
+                    @item.Value.agentscored;
                 </td>
                 <td>
-                    @Model.ListOfResults[j].scoredby;
+                    @item.Value.scoredby;
                 </td>
                 <td>
-                    @Model.ListOfResults[j].score.ToString();
+                    @item.Value.score.ToString();
                 </td>
                 <td>
-                    <a href="/Score/ScoreCardResult?ScoreCardID=@Model.ListOfResults[j].scorecardid">Load Scorecard</a>
+                    <a href="/Score/ScoreCardResult?ResultID=@item.Key.ToString()">Load Scorecard</a>
                 </td>
 
 

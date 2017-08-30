@@ -159,7 +159,7 @@
                             </td>
                      
                             <td>
-                                @if (Model.scorecardgroups[j].scorecarditems[i].question == "Multiple Choice")
+                                @if (Model.scorecardgroups[j].scorecarditems[i].questiontype == "MultipleChoice")
                                 {
                                     @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].answer,Model.scorecardgroups[j].scorecarditems[i].possibleanswerslist, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers)}

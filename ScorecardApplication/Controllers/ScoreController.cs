@@ -3,6 +3,7 @@ using ScorecardApplication.Datasets.dsScorecardTableAdapters;
 using ScorecardApplication.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -279,7 +280,7 @@ namespace ScorecardApplication.Controllers
             ResultTableAdapter ResultTA = new ResultTableAdapter();
             dsScorecard ScorecardDataset = new dsScorecard();
 
-            ResultTA.Fill(ScorecardDataset.Result,Convert.ToInt32(model.ScorecardID));
+            ResultTA.Fill(ScorecardDataset.Result,Convert.ToInt32(model.ScorecardID),null);
             UserTA.Fill(ScorecardDataset.User);
 
             model.ListOfResults = new Dictionary<int, ScorecardModel>();
@@ -305,6 +306,97 @@ namespace ScorecardApplication.Controllers
             }
 
 
+            return View(model);
+        }
+
+
+        public ActionResult ScorecardResult(int ResultID)
+        {
+            ScorecardModel model = new ScorecardModel();
+            dsScorecard ScorecardDataset = new dsScorecard();
+            ResultTableAdapter ResultTA = new ResultTableAdapter();
+            ResultGroupTableAdapter ResultGroupTA = new ResultGroupTableAdapter();
+            ResultItemTableAdapter ResultItemTA = new ResultItemTableAdapter();
+
+            ScorecardTableAdapter ScorecardTA = new ScorecardTableAdapter();
+            ScorecardItemGroupTableAdapter ScorecardGroupTA = new ScorecardItemGroupTableAdapter();
+            ScorecardItemTableAdapter ScorecardItemTA = new ScorecardItemTableAdapter();
+
+        
+
+            ResultTA.Fill(ScorecardDataset.Result, null, ResultID);
+            ResultGroupTA.Fill(ScorecardDataset.ResultGroup, ResultID);
+            ResultItemTA.Fill(ScorecardDataset.ResultItem, ResultID);
+            dsScorecard.ResultRow ResultRow = ((dsScorecard.ResultRow)ScorecardDataset.Result.Rows[0]);
+
+            UserTableAdapter UserTA = new UserTableAdapter();
+            UserTA.Fill(ScorecardDataset.User);
+
+            dsScorecard.UserRow AgentScoredRow = ScorecardDataset.User.FindByUserID(ResultRow.AgentID);
+            dsScorecard.UserRow ScoredByRow = ScorecardDataset.User.FindByUserID(ResultRow.ScorerID);
+
+            ScorecardTA.Fill(ScorecardDataset.Scorecard, ResultRow.ScorecardID);
+            ScorecardGroupTA.Fill(ScorecardDataset.ScorecardItemGroup, ResultRow.ScorecardID);
+            
+            dsScorecard.ScorecardRow ScorecardRow = ((dsScorecard.ScorecardRow)ScorecardDataset.Scorecard.Rows[0]);
+
+            model.scorecardname = ScorecardRow.ScorecardName;
+            model.scorecarddescription = ScorecardRow.ScorecardDescription;
+            model.scorecardgroups = new List<ScorecardGroup>();
+            model.agentscored = new User {
+                emailaddress = AgentScoredRow.EmailAddress,
+                firstname = AgentScoredRow.FirstName,
+                surname = AgentScoredRow.Surname
+                };
+            model.scoredby = new User
+            {
+                emailaddress = ScoredByRow.EmailAddress,
+                firstname = ScoredByRow.FirstName,
+                surname = ScoredByRow.Surname
+            };
+            model.comment = ResultRow.Comment;
+            model.datescored = ResultRow.DateScored;
+            model.callreference = ResultRow.CallReference;
+            model.score = ResultRow.Score;
+
+            foreach (dsScorecard.ScorecardItemGroupRow GroupRow in ScorecardDataset.ScorecardItemGroup)
+            {
+                DataRow[] ResultGroupRows = ScorecardDataset.ResultGroup.Select("ScorecardItemGroupID="+GroupRow.ScorecardItemGroupID.ToString());
+                ScorecardGroup GroupItem = new ScorecardGroup
+                {
+                    groupname = GroupRow.GroupName,
+                    pasmark = GroupRow.PassScore,
+                    groupdescription = GroupRow.Description,
+                    comment = ((dsScorecard.ResultGroupRow)ResultGroupRows[0]).Comment,
+                    score = ((dsScorecard.ResultGroupRow)ResultGroupRows[0]).Score
+
+                };
+
+                GroupItem.scorecarditems = new List<ScorecardItem>();
+                ScorecardDataset.ScorecardItem.Clear();
+                ScorecardItemTA.Fill(ScorecardDataset.ScorecardItem, ResultRow.ScorecardID, GroupRow.ScorecardItemGroupID);
+                foreach (dsScorecard.ScorecardItemRow ItemRow in ScorecardDataset.ScorecardItem)
+                {
+                    DataRow[] ResultItemRows = ScorecardDataset.ResultItem.Select("QuestionID=" + ItemRow.ScorecardItemID.ToString());
+                    ScorecardItem Item = new ScorecardItem
+                    {
+                        question = ItemRow.Question,
+                        autofail = ItemRow.AutoFail.ToString(),
+                        questiontype = ItemRow.QuestionType,
+                        scoremodifier = ItemRow.ScoreModifier,
+                        answer = ((dsScorecard.ResultItemRow)ResultItemRows[0]).Answer,
+                        comment = ((dsScorecard.ResultItemRow)ResultItemRows[0]).Comment,
+                        score = ((dsScorecard.ResultItemRow)ResultItemRows[0]).Score
+                    };
+                    GroupItem.scorecarditems.Add(Item);
+                }
+
+
+                model.scorecardgroups.Add(GroupItem);
+
+
+            }
+           
             return View(model);
         }
 

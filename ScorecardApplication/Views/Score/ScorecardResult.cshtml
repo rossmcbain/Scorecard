@@ -1,5 +1,147 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Scorecard Result";
 }
+@model ScorecardApplication.Models.ScorecardModel
 
+
+
+
+@using (Html.BeginForm())
+{
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-md-12">
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.scorecardname)
+                            @Html.TextBoxFor(m => m.scorecardname, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.callreference)
+                            @Html.TextBoxFor(m => m.callreference, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.agentscored)
+                        @Html.TextBoxFor(m => m.agentscored.fullname, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.score)
+                        @Html.TextBoxFor(m => m.score, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.scoredby)
+                        @Html.TextBoxFor(m => m.scoredby.fullname, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.score)
+                        @Html.TextBoxFor(m => m.score, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.datescored)
+                        @Html.TextBoxFor(m => m.datescored, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                  Result
+                    </div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    for (int j = 0; j < Model.scorecardgroups.Count; j++)
+    {
+
+        string groupname = "group" + j.ToString();
+        string tablename = "table" + j.ToString();
+
+
+
+        <div id="@groupname">
+
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.scorecardgroups[j].groupname)
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control", @readonly = "true" })
+                </div>
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.scorecardgroups[j].groupdescription)
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control", @readonly = "true" })
+                </div>
+            </div>
+            <br />
+
+
+
+            <table id="@tablename">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
+
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().answer)</th>
+
+                        <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().comment)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.scorecardgroups[j].scorecarditems.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="hidden" name="ScorecardItems.Index" value="@i">
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].question, new { @class = "form-control", @readonly = "true" })
+                            </td>
+
+                            <td>
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].answer, new { @class = "form-control", @readonly = "true" })
+                            </td>
+
+                            <td></td>
+
+                            <td>
+                                @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].comment, new { @class = "form-control", @readonly = "true" })
+
+                            </td>
+                            <td></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.LabelFor(m => m.scorecardgroups[j].comment)
+                    @Html.TextBoxFor(m => m.scorecardgroups[j].comment, new { @class = "form-control", @readonly = "true" })
+                </div>
+            </div>
+        </div>
+            <br />
+
+
+
+
+                            <hr />
+                            @Html.LabelFor(m => m.comment);
+        @Html.TextBoxFor(m => m.comment, new { @class = "form-control", @readonly = "true" })
+
+   
+
+    }
+
+
+
+}
 
