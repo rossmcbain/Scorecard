@@ -2022,6 +2022,8 @@ namespace ScorecardApplication.Datasets {
             
             private global::System.Data.DataColumn columnScorecardItemGroupID;
             
+            private global::System.Data.DataColumn columnAnswer;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public ScorecardItemDataTable() {
@@ -2121,6 +2123,14 @@ namespace ScorecardApplication.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public global::System.Data.DataColumn AnswerColumn {
+                get {
+                    return this.columnAnswer;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2156,7 +2166,7 @@ namespace ScorecardApplication.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
-            public ScorecardItemRow AddScorecardItemRow(ScorecardRow parentScorecardRowByFK_ScorecardItem_Scorecard, string Question, string QuestionType, string PossibleAnswers, int ScoreModifier, bool AutoFail, ScorecardItemGroupRow parentScorecardItemGroupRowByFK_ScorecardItem_ScorecardItemGroup) {
+            public ScorecardItemRow AddScorecardItemRow(ScorecardRow parentScorecardRowByFK_ScorecardItem_Scorecard, string Question, string QuestionType, string PossibleAnswers, int ScoreModifier, bool AutoFail, ScorecardItemGroupRow parentScorecardItemGroupRowByFK_ScorecardItem_ScorecardItemGroup, string Answer) {
                 ScorecardItemRow rowScorecardItemRow = ((ScorecardItemRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -2166,7 +2176,8 @@ namespace ScorecardApplication.Datasets {
                         PossibleAnswers,
                         ScoreModifier,
                         AutoFail,
-                        null};
+                        null,
+                        Answer};
                 if ((parentScorecardRowByFK_ScorecardItem_Scorecard != null)) {
                     columnValuesArray[1] = parentScorecardRowByFK_ScorecardItem_Scorecard[0];
                 }
@@ -2210,6 +2221,7 @@ namespace ScorecardApplication.Datasets {
                 this.columnScoreModifier = base.Columns["ScoreModifier"];
                 this.columnAutoFail = base.Columns["AutoFail"];
                 this.columnScorecardItemGroupID = base.Columns["ScorecardItemGroupID"];
+                this.columnAnswer = base.Columns["Answer"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2231,6 +2243,8 @@ namespace ScorecardApplication.Datasets {
                 base.Columns.Add(this.columnAutoFail);
                 this.columnScorecardItemGroupID = new global::System.Data.DataColumn("ScorecardItemGroupID", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnScorecardItemGroupID);
+                this.columnAnswer = new global::System.Data.DataColumn("Answer", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAnswer);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnScorecardItemID}, true));
                 this.columnScorecardItemID.AutoIncrement = true;
@@ -4276,6 +4290,22 @@ namespace ScorecardApplication.Datasets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public string Answer {
+                get {
+                    try {
+                        return ((string)(this[this.tableScorecardItem.AnswerColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Answer\' in table \'ScorecardItem\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableScorecardItem.AnswerColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public ScorecardRow ScorecardRow {
                 get {
                     return ((ScorecardRow)(this.GetParentRow(this.Table.ParentRelations["FK_ScorecardItem_Scorecard"])));
@@ -4306,6 +4336,18 @@ namespace ScorecardApplication.Datasets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
             public void SetPossibleAnswersNull() {
                 this[this.tableScorecardItem.PossibleAnswersColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public bool IsAnswerNull() {
+                return this.IsNull(this.tableScorecardItem.AnswerColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
+            public void SetAnswerNull() {
+                this[this.tableScorecardItem.AnswerColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -7010,6 +7052,7 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
             tableMapping.ColumnMappings.Add("ScoreModifier", "ScoreModifier");
             tableMapping.ColumnMappings.Add("AutoFail", "AutoFail");
             tableMapping.ColumnMappings.Add("ScorecardItemGroupID", "ScorecardItemGroupID");
+            tableMapping.ColumnMappings.Add("Answer", "Answer");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -7029,6 +7072,7 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScoreModifier", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "ScoreModifier", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@AutoFail", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 1, 0, "AutoFail", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScorecardItemGroupID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "ScorecardItemGroupID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Answer", global::System.Data.SqlDbType.VarChar, 500, global::System.Data.ParameterDirection.Input, 0, 0, "Answer", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = "dbo.ScorecardItemUpdateCommand";
@@ -7037,12 +7081,13 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScorecardID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "ScorecardID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Question", global::System.Data.SqlDbType.VarChar, 500, global::System.Data.ParameterDirection.Input, 0, 0, "Question", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@QuestionType", global::System.Data.SqlDbType.VarChar, 20, global::System.Data.ParameterDirection.Input, 0, 0, "QuestionType", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PossibleAnswers", global::System.Data.SqlDbType.VarChar, 1000, global::System.Data.ParameterDirection.Input, 0, 0, "PossibleAnswers", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PossibleAnswers", global::System.Data.SqlDbType.VarChar, 2147483647, global::System.Data.ParameterDirection.Input, 0, 0, "PossibleAnswers", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScoreModifier", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "ScoreModifier", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@AutoFail", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 1, 0, "AutoFail", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScorecardItemGroupID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "ScorecardItemGroupID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ScorecardItemID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "ScorecardItemID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScorecardItemID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, "ScorecardItemID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Answer", global::System.Data.SqlDbType.VarChar, 500, global::System.Data.ParameterDirection.Input, 0, 0, "Answer", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7075,6 +7120,7 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScoreModifier", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@AutoFail", global::System.Data.SqlDbType.Bit, 1, global::System.Data.ParameterDirection.Input, 1, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@ScorecardItemGroupID", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 10, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Answer", global::System.Data.SqlDbType.VarChar, 500, global::System.Data.ParameterDirection.Input, 0, 0, null, global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7185,7 +7231,7 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID) {
+        public virtual int Insert(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID, string Answer) {
             if ((ScorecardID.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((int)(ScorecardID.Value));
             }
@@ -7228,6 +7274,12 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
             }
+            if ((Answer == null)) {
+                this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[8].Value = ((string)(Answer));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -7248,7 +7300,7 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID, global::System.Nullable<int> Original_ScorecardItemID, global::System.Nullable<int> ScorecardItemID) {
+        public virtual int Update(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID, global::System.Nullable<int> Original_ScorecardItemID, global::System.Nullable<int> ScorecardItemID, string Answer) {
             if ((ScorecardID.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(ScorecardID.Value));
             }
@@ -7303,6 +7355,12 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
             }
+            if ((Answer == null)) {
+                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Answer));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -7323,14 +7381,14 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID, global::System.Nullable<int> Original_ScorecardItemID) {
-            return this.Update(ScorecardID, Question, QuestionType, PossibleAnswers, ScoreModifier, AutoFail, ScorecardItemGroupID, Original_ScorecardItemID, Original_ScorecardItemID);
+        public virtual int Update(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID, global::System.Nullable<int> Original_ScorecardItemID, string Answer) {
+            return this.Update(ScorecardID, Question, QuestionType, PossibleAnswers, ScoreModifier, AutoFail, ScorecardItemGroupID, Original_ScorecardItemID, Original_ScorecardItemID, Answer);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual object ScorecardItemInsertCommand(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID) {
+        public virtual object ScorecardItemInsertCommand(global::System.Nullable<int> ScorecardID, string Question, string QuestionType, string PossibleAnswers, global::System.Nullable<int> ScoreModifier, global::System.Nullable<bool> AutoFail, global::System.Nullable<int> ScorecardItemGroupID, string Answer) {
             global::System.Data.SqlClient.SqlCommand command = this.CommandCollection[1];
             if ((ScorecardID.HasValue == true)) {
                 command.Parameters[1].Value = ((int)(ScorecardID.Value));
@@ -7373,6 +7431,12 @@ namespace ScorecardApplication.Datasets.dsScorecardTableAdapters {
             }
             else {
                 command.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            if ((Answer == null)) {
+                command.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[8].Value = ((string)(Answer));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 

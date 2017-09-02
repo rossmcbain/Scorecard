@@ -2,13 +2,18 @@
     ViewBag.Title = "New Scorecard";
 }
 @model ScorecardApplication.Models.ScorecardModel
-<!DOCTYPE html>
 
+@*<script src="~/Scripts/jquery-3.1.1.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>*@
+
+
+@using (Html.BeginForm())
+{
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="col-md-12">
-                @using (Html.BeginForm())
-                {
+           
+             
                     <div class="row">
                         <div class="col-md-3">
                             @Html.LabelFor(m => m.scorecardname)
@@ -29,13 +34,14 @@
 
 
                     <hr />
-                    for (int j = 0; j < Model.scorecardgroups.Count; j++)
+                    @for (int j = 0; j < Model.scorecardgroups.Count; j++)
                     {
 
                         string groupname = "group" + j.ToString();
                         string tablename = "table" + j.ToString();
-                       
-                        string addstring = "m.scorecardgroups[" + j + "].add";
+
+                        string addstringpf = "m.scorecardgroups[" + j + "].addpf";
+                        string addstringmc = "m.scorecardgroups[" + j + "].addmc";
 
                             <div id="@groupname">
 
@@ -53,7 +59,7 @@
                                     <div class="col-md-3">
                                         @Html.LabelFor(m => m.scorecardgroups[j].pasmark)
                                         @Html.TextBoxFor(m => m.scorecardgroups[j].pasmark, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.scorecardgroups[j].pasmark);
+                                        @Html.ValidationMessageFor(m => m.scorecardgroups[j].pasmark)
                                     </div>
                                 </div>
 
@@ -65,9 +71,10 @@
                                     <thead>
                                         <tr>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
-                                            <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().answer)</th>
+                                            
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().questiontype)</th>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().possibleanswers)</th>
+                                            <th></th>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().autofail)</th>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().scoremodifier)</th>
                                         </tr>
@@ -77,24 +84,30 @@
                                         {
 
                                             string deletestring = "m.scorecardgroups[" + j + "].scorecarditems[" + i + "].delete";
-
+                                            string possiblestring = "m.scorecardgroups[" + j + "].scorecarditems[" + i + "].possibleanswers";
+                                            string newitemmodal = "#AddItem_" + j + "_" + i;
                                             <tr>
                                                 <td>
                                                     <input type="hidden" name="ScorecardItems.Index" value="@i">
                                                     @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].question, new { @class = "form-control" })
                                                     @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].question)
                                                 </td>
+
                                                 <td>
-                                                    @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].answer, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].answer)
+                                                    @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].questiontype, new { @class = "form-control",  @readonly = "true" })
                                                 </td>
                                                 <td>
-                                                    @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].questiontype, ScorecardApplication.Models.ScorecardModel.ScorecardQuestionTypeList, new { @class = "form-control" })
+                                                    @if (Model.scorecardgroups[j].scorecarditems[i].possibleanswerslist != null)
+                                                    {
+                                                        @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].answer, Model.scorecardgroups[j].scorecarditems[i].possibleanswerslist, new { @class = "form-control" })
+                                                    }
                                                 </td>
-                                                <td>
-                                                    @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers, new { @class = "form-control" })
-                                                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#AddItem">Add</button>
-                                                </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="@newitemmodal">Add Item</button>
+                                                    
+                                                    <input type="hidden" name="@possiblestring"  value="@ViewData[$"m.scorecardgroups[{j}].scorecarditems[{i}].possibleanswers"]" />
+                                                
+                                                    </td>
                                                 <td>
                                                   @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].autofail, ScorecardApplication.Models.ScorecardModel.AutoFailList, new { @class = "form-control" })
                                                
@@ -112,7 +125,8 @@
                                     </tbody>
                                 </table>
                                 @*<button type="button" id="@buttonname" class="btn" onclick="AddScoreCardRow(@buttonname)">Add Question</button>*@
-                                <input type="submit" name="@addstring" class="btn" value="Add Question" />
+                                <input type="submit" name="@addstringpf" class="btn" value="Add Pass/Fail Question" />
+                                <input type="submit" name="@addstringmc" class="btn" value="Add M.C. Question" />
                             </div>
                             <br />
 
@@ -135,34 +149,8 @@
                     </div>
 
 
-
-                    <!-- Trigger the modal with a button -->
-                    
-
-                    <!-- Modal -->
-                    <div id="AddItem" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
-
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Add Item</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="text" name="addpossible" value="" class="form-control" />
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" name="submit" value="Add Item" class="btn" />
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                }@*Form End*@
-                
+                  
+      
 
 
             </div>
@@ -172,6 +160,47 @@
 
 
     </div>
+
+
+
+for (int j = 0; j < Model.scorecardgroups.Count; j++)
+{
+
+    for (int i = 0; i < Model.scorecardgroups[j].scorecarditems.Count; i++)
+    {
+        string newitemstring = "m.scorecardgroups[" + j + "].scorecarditems[" + i + "].newitem";
+        string newitemvalue = "m.scorecardgroups[" + j + "].scorecarditems[" + i + "].itemvalue";
+        string newitemmodal = "AddItem_" + j + "_" + i;
+
+                                    <!-- Modal -->
+        <div id="@newitemmodal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">New Item</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="@newitemvalue" value="" class="form-control" />
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" name="@newitemstring" value="New Item" class="btn" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    }
+}
+
+
+          }@*Form End*@
+
+
+
 
 
 
@@ -217,8 +246,7 @@
             </td>
         </tr>
     </table>*@
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
     <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
@@ -226,21 +254,21 @@
 
 
     <script type="text/javascript">
-			var form = $('form');
+            var form = $('form');
        // var table = $('#ScorecardItems tbody');
-			var newrow= $('#newrow');
+            var newrow= $('#newrow');
 
-        	$('#add').click(function () {
-            	var index = (new Date()).getTime();
-            	var clone = newrow.find('tr').clone();
-            	clone.html($(clone).html().replace(/\[#\]/g, '[' + index + ']'));
-            	clone.html($(clone).html().replace(/"%"/g, '"' + index + '"'));
-            	table.append(clone);
-				//form.data('validator', null);
-  				//$.validator.unobtrusive.parse(form)
-        	});
+            $('#add').click(function () {
+                var index = (new Date()).getTime();
+                var clone = newrow.find('tr').clone();
+                clone.html($(clone).html().replace(/\[#\]/g, '[' + index + ']'));
+                clone.html($(clone).html().replace(/"%"/g, '"' + index + '"'));
+                table.append(clone);
+                //form.data('validator', null);
+                //$.validator.unobtrusive.parse(form)
+            });
     //        $('#ScorecardItems').on('click', '.delete', function() {
-				//$(this).closest('tr').remove();
+                //$(this).closest('tr').remove();
     //        });
 
 
@@ -260,7 +288,10 @@
 
             }
 
-    </script>
+    </script>*@
+
+
+
 
 
 

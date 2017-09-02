@@ -47,8 +47,8 @@ namespace ScorecardApplication.Models
 
         private static List<SelectListItem> scorecardQuestionTypeList = new List<SelectListItem>()
     {
-        new SelectListItem() {Text="Pass/Fail", Value="PassFail"},
-        new SelectListItem() {Text="Multiple Choice", Value="MultipleChoice"}
+        new SelectListItem() {Text="Pass/Fail", Value="Pass/Fail"},
+        new SelectListItem() {Text="Multiple Choice", Value="Multiple Choice"}
     };
 
 
@@ -65,10 +65,7 @@ namespace ScorecardApplication.Models
 
     public class ScorecardGroup
     {
-        public ScorecardGroup()
-        {
-            scorecarditems = new List<ScorecardItem>();
-        }
+    
 
         [Required]
         [Display(Name = "Group Name")]
@@ -108,7 +105,10 @@ namespace ScorecardApplication.Models
         [Display(Name = "Comment")]
         public string comment { get; set; }
 
+        [Display(Name = "Possible Answers")]
         public List<SelectListItem> possibleanswerslist { get; set; }
+        
+
         public int itemid { get; set; }
     }
 

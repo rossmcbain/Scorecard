@@ -110,7 +110,7 @@ namespace ScorecardApplication.Controllers
                     {
                         ScorecardItem NewItem = new ScorecardItem();
                         NewItem.autofail = ItemRow.AutoFail.ToString();
-                        String[] PossibleAnswerArray = ItemRow.PossibleAnswers.Split(",".ToCharArray());
+                        String[] PossibleAnswerArray = ItemRow.PossibleAnswers.Split("|".ToCharArray());
                         NewItem.possibleanswerslist = new List<SelectListItem>();
                         foreach(String possibleanswer in PossibleAnswerArray)
                         {
@@ -182,8 +182,9 @@ namespace ScorecardApplication.Controllers
 
             Models.ScorecardModel model = new Models.ScorecardModel();
             model.scorecardgroups = new List<ScorecardGroup>();
-            model.scorecardgroups.Add(new ScorecardGroup { groupname = "Call Opening" });
-            model.scorecardgroups[0].scorecarditems.Add(new ScorecardItem());
+            //model.scorecardgroups.Add(new ScorecardGroup { groupname = "Call Opening" });
+            //model.scorecardgroups[0].scorecarditems.Add(new ScorecardItem());
+            
         
             return View(model);
         }
@@ -197,24 +198,132 @@ namespace ScorecardApplication.Controllers
                 if(item.Contains("delete"))
                     {
                     int groupid = Convert.ToInt32(item.Substring(18,item.IndexOf("]")-18));
-                    int questionid = Convert.ToInt32(item.Replace(item.Substring(0, item.IndexOf("]")+1), "").Replace(".scorecarditems[", "").Replace("].delete",""));
-                    model.scorecardgroups[groupid].scorecarditems.RemoveAt(questionid);
-                    return View(model);
+                    int questionid = Convert.ToInt32(item.Replace(item.Substring(0, item.IndexOf("]") + 1), "").Replace(".scorecarditems[", "").Replace("].delete", ""));
+                    ScorecardItem SCItem = model.scorecardgroups[groupid].scorecarditems[questionid];
+                    model.scorecardgroups[groupid].scorecarditems.Remove(SCItem);
+                    //return View(model);
                 }
-                if (item.Contains("add"))
+                if (item.Contains("addpf"))
+                {
+                  
+                    int groupid = Convert.ToInt32(item.Substring(18, item.IndexOf("]") - 18));
+                    List<SelectListItem> PossibleAnswersList = new List<SelectListItem>();
+                    PossibleAnswersList.Add(new SelectListItem { Text = "Pass", Value = "Pass" });
+                    PossibleAnswersList.Add(new SelectListItem { Text = "Fail", Value = "Fail" });
+                    if (model.scorecardgroups[groupid].scorecarditems == null) { model.scorecardgroups[groupid].scorecarditems = new List<ScorecardItem>(); }
+                                      ScorecardItem SCitem = new ScorecardItem()
+                    {
+                        questiontype = "Pass/Fail",
+                        possibleanswers = "Pass|Fail",
+                        possibleanswerslist = PossibleAnswersList
+                    };
+                    model.scorecardgroups[groupid].scorecarditems.Add(SCitem);
+                    ViewData[$"m.scorecardgroups[{groupid}].scorecarditems[{(model.scorecardgroups[groupid].scorecarditems.Count-1).ToString()}].possibleanswers"] = "Pass|Fail";
+                    //return View(model);
+                }
+                if (item.Contains("addmc"))
                 {
                     int groupid = Convert.ToInt32(item.Substring(18, item.IndexOf("]") - 18));
-                    model.scorecardgroups[groupid].scorecarditems.Add(new ScorecardItem());
-                    return View(model);
+                    if (model.scorecardgroups[groupid].scorecarditems == null) { model.scorecardgroups[groupid].scorecarditems = new List<ScorecardItem>(); }
+                    model.scorecardgroups[groupid].scorecarditems.Add(new ScorecardItem() { questiontype = "Multiple Choice" });
+                    //return View(model);
                 }
+                if (item.Contains("newitem"))
+                {
+                    string key = item.Replace("newitem", "itemvalue");
+                    string[] value = Request.Form.GetValues(key);
+                    int groupid = Convert.ToInt32(item.Substring(18, item.IndexOf("]") - 18));
+                    int questionid = Convert.ToInt32(item.Replace(item.Substring(0, item.IndexOf("]") + 1), "").Replace(".scorecarditems[", "").Replace("].newitem", ""));
+
+                    string[] existinganswers = new String[]{ };
+                    string existinganswer = Request.Form.GetValues($"m.scorecardgroups[{groupid}].scorecarditems[{questionid}].possibleanswers")[0];
+                    if (existinganswer != "")
+                    { 
+                    existinganswers = existinganswer.Split(Convert.ToChar("|"));
+                    }
+                  
+
+                    if (model.scorecardgroups[groupid].scorecarditems[questionid].possibleanswerslist == null)
+                    {
+                        model.scorecardgroups[groupid].scorecarditems[questionid].possibleanswerslist = new List<SelectListItem>();
+                        if (existinganswers != null)
+                        {
+                            foreach (string answer in existinganswers)
+                            {
+                                model.scorecardgroups[groupid].scorecarditems[questionid].possibleanswerslist.Add(new SelectListItem { Text = answer, Value = answer });
+                            }
+                        }
+                    }
+                    model.scorecardgroups[groupid].scorecarditems[questionid].possibleanswerslist.Add(new SelectListItem { Text = value[0], Value = value[0] });
+
+                    String possibleanswers = "";
+                    foreach (SelectListItem answer in model.scorecardgroups[groupid].scorecarditems[questionid].possibleanswerslist)
+                        {
+                        if(possibleanswers != "")
+                        {
+                            possibleanswers = possibleanswers+ "|";
+                        }
+                        possibleanswers = possibleanswers + answer.Text;
+                        }
+                    model.scorecardgroups[groupid].scorecarditems[questionid].possibleanswers = possibleanswers;
+                    ViewData[$"m.scorecardgroups[{groupid}].scorecarditems[{questionid}].possibleanswers"] = possibleanswers;
+
+                   // return View(model);
+                }
+
             }
 
 
             if (submit == "Add Group")
             {
+                if(model.scorecardgroups == null) { model.scorecardgroups = new List<ScorecardGroup>(); }
                 model.scorecardgroups.Add(new ScorecardGroup { groupname = "New Group" });
-                model.scorecardgroups[model.scorecardgroups.Count -1].scorecarditems.Add(new ScorecardItem());
-                return View(model);
+                model.scorecardgroups[model.scorecardgroups.Count - 1].scorecarditems = new List<ScorecardItem>();
+              
+
+               // return View(model);
+            }
+
+
+
+            for (int j = 0; j < model.scorecardgroups.Count; j++)
+            {
+                ScorecardGroup Group = model.scorecardgroups[j];
+
+                for (int i = 0; i < model.scorecardgroups[j].scorecarditems.Count; i++)
+                {
+                    ScorecardItem Item = model.scorecardgroups[j].scorecarditems[i];
+                    String PreviousAnswers = "";
+
+                    PreviousAnswers = Item.possibleanswers;
+                    if(PreviousAnswers == null || PreviousAnswers == "")
+                    { 
+                        try
+                        {
+                            PreviousAnswers = Request.Form.GetValues($"m.scorecardgroups[{j}].scorecarditems[{i}].possibleanswers")[0];
+                        }
+                        catch (Exception e)
+                        {
+                            PreviousAnswers = Item.possibleanswers;
+                        }                    
+
+                    }
+
+
+                    if (PreviousAnswers != null)
+                    { 
+                    String[] PossibleAnswers = PreviousAnswers.Split(Convert.ToChar("|"));
+
+                    ViewData[$"m.scorecardgroups[{j}].scorecarditems[{i}].possibleanswers"] = PreviousAnswers;
+                    Item.possibleanswerslist = new List<SelectListItem>();
+                    foreach (String Answer in PossibleAnswers)
+                    {
+                        Item.possibleanswerslist.Add(new SelectListItem { Text = Answer, Value = Answer });
+                    }
+                }
+                    
+                }
+
             }
 
 
@@ -239,11 +348,14 @@ namespace ScorecardApplication.Controllers
                         ScorecardItem item = model.scorecardgroups[j].scorecarditems[i];
                         bool autofail;
                         if(item.autofail == "Yes") { autofail = true; } else { autofail = false; }
-                        ScorecardItemTA.Insert(ScorecardID, item.question, item.questiontype, item.possibleanswers, item.scoremodifier, autofail, GroupID);
+
+                        string existinganswer = Request.Form.GetValues($"m.scorecardgroups[{j}].scorecarditems[{i}].possibleanswers")[0];
+
+                        ScorecardItemTA.Insert(ScorecardID, item.question, item.questiontype, existinganswer, item.scoremodifier, autofail, GroupID,item.answer);
                     }
 
                 }
-                Redirect("/home/index");
+                return(Redirect("/home/index"));
             }
            
                 return View(model);

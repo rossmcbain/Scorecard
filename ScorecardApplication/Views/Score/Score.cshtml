@@ -159,7 +159,7 @@
                             </td>
                      
                             <td>
-                                @if (Model.scorecardgroups[j].scorecarditems[i].questiontype == "MultipleChoice")
+                                @if (Model.scorecardgroups[j].scorecarditems[i].questiontype == "Multiple Choice")
                                 {
                                     @Html.DropDownListFor(m => m.scorecardgroups[j].scorecarditems[i].answer,Model.scorecardgroups[j].scorecarditems[i].possibleanswerslist, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(m => m.scorecardgroups[j].scorecarditems[i].possibleanswers)}
@@ -203,13 +203,13 @@
 
 
                 <hr />
-                @Html.LabelFor(m => m.comment);
-            @Html.TextBoxFor(m => m.comment, new { @class = "form-control"})
-                
-                <input type="submit" name="submit" class="btn" value="Save Scorecard" />
+
 
         }
+        @Html.LabelFor(m => m.comment);
+        @Html.TextBoxFor(m => m.comment, new { @class = "form-control" })
 
+        <input type="submit" name="submit" class="btn" value="Save Scorecard" />
     }
 
 }
