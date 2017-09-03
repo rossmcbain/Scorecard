@@ -6,6 +6,7 @@
 @using (Html.BeginForm())
 {
     <div class="row">
+        @Html.HiddenFor(m => m.userid)
     @Html.LabelFor(m => m.username)
     @Html.TextBoxFor(m => m.username, new { @class = "form-control" })
     @Html.ValidationMessageFor(m => m.username)

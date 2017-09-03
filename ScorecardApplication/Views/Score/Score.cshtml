@@ -72,7 +72,7 @@
                     <div class="col-md-3">
                         @Html.LabelFor(m => m.recording)
                         @Html.DropDownListFor(m => m.recording, Model.Callrecordinglist, new { @class = "form-control" })
-                        @*@Html.HiddenFor(m => m.recordingfilename)*@
+                        @Html.HiddenFor(m => m.agentscored.userid)
                         <input type="submit" name="submit" class="btn" value="Load Call" />
 
                     </div>
@@ -106,6 +106,7 @@
                 <div class="row">
                     <audio src="@Model.recordingfilename" type="audio/mp3" controls="controls"/>
                 </div>
+                @Html.HiddenFor(m => m.agentscored.userid)
     }
             </div>
         </div>
@@ -124,7 +125,7 @@
 
 
         <div id="@groupname">
-
+            @Html.HiddenFor(m => m.scorecardgroups[j].groupid)
             <div class="row">
                 <div class="col-md-3">
                     @Html.LabelFor(m => m.scorecardgroups[j].groupname)
@@ -152,6 +153,7 @@
                 <tbody>
                     @for (int i = 0; i < Model.scorecardgroups[j].scorecarditems.Count; i++)
                     {
+                        @Html.HiddenFor(m => m.scorecardgroups[j].scorecarditems[i].itemid)
                         <tr>
                             <td>
                                 <input type="hidden" name="ScorecardItems.Index" value="@i">

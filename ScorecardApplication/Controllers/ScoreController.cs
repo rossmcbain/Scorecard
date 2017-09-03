@@ -141,33 +141,34 @@ namespace ScorecardApplication.Controllers
                 ResultTableAdapter ResultTA = new ResultTableAdapter();
                 ResultItemTableAdapter ResultItemTA = new ResultItemTableAdapter();
                 ResultGroupTableAdapter ResultGroupTA = new ResultGroupTableAdapter();
-
+                UserTableAdapter UserTA = new UserTableAdapter();
+                UserTA.Fill(ScorecardDataset.User);
                 int ScorerID  = 0;
                 foreach(dsScorecard.UserRow row in ScorecardDataset.User)
                 {
-                    if (row.Username == User.Identity.Name)
+                    if (row.Username.ToLower() == User.Identity.Name.ToLower())
                     {
                         ScorerID = row.UserID;
                     }
                 }
 
 
-                int ResultID = ResultTA.Insert(model.agentscored.userid, ScorerID, model.scorecardid, DateTime.Now, model.callreference, 0, model.comment);
+                int ResultID = Convert.ToInt32(ResultTA.ResultInsertCommand(model.agentscored.userid, ScorerID, model.scorecardid, DateTime.Now, model.callreference, 0, model.comment));
 
                foreach(ScorecardGroup Group in model.scorecardgroups)
                 {
                     int GroupID = 0;
-                    GroupID = ResultGroupTA.Insert(ResultID, Group.groupid, Group.comment, 0);
+                    GroupID = Convert.ToInt32(ResultGroupTA.ResultGroupInsertCommand(ResultID, Group.groupid, Group.comment, 0));
                     
                     foreach(ScorecardItem Item in Group.scorecarditems)
                     {
-                        ResultItemTA.Insert(ResultID, Item.itemid, Item.answer, 0, Item.comment, GroupID);
+                        ResultItemTA.ResultItemInsertCommand(ResultID, Item.itemid, Item.answer, 0, Item.comment, GroupID);
                     }
 
 
                 }
 
-
+                return (Redirect("/home/index"));
 
 
             }
@@ -188,6 +189,7 @@ namespace ScorecardApplication.Controllers
         
             return View(model);
         }
+
         [HttpPost]
         public ActionResult NewScorecard(Models.ScorecardModel model, string submit)
         {
@@ -391,7 +393,10 @@ namespace ScorecardApplication.Controllers
             UserTableAdapter UserTA = new UserTableAdapter();
             ResultTableAdapter ResultTA = new ResultTableAdapter();
             dsScorecard ScorecardDataset = new dsScorecard();
+            ScorecardTableAdapter ScorecardTA = new ScorecardTableAdapter();
+            ScorecardTA.Fill(ScorecardDataset.Scorecard, model.ScorecardID);
 
+            model.ScorecardName = ((dsScorecard.ScorecardRow)ScorecardDataset.Scorecard.Rows[0]).ScorecardName;
             ResultTA.Fill(ScorecardDataset.Result,Convert.ToInt32(model.ScorecardID),null);
             UserTA.Fill(ScorecardDataset.User);
 
@@ -403,6 +408,7 @@ namespace ScorecardApplication.Controllers
                 ScorecardModel Scorecard = new ScorecardModel
                 {
                     score = Row.Score,
+                    datescored = Row.DateScored,
                     agentscored = new User
                     {
                         firstname = UserRow.FirstName,

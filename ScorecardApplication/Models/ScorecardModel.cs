@@ -169,6 +169,7 @@ namespace ScorecardApplication.Models
     {
         [Display(Name = "Scorecard")]
         public int ScorecardID { get; set; }
+        public String ScorecardName { get; set; }
         public List<SelectListItem> ListOfTemplates { get; set; }
         public Dictionary <int, ScorecardModel> ListOfResults { get; set; }
     }

@@ -52,7 +52,7 @@ namespace ScorecardApplication.Controllers
                     userlevel = UserLevelItem
                     
                     
-                }; ;
+                };
                 model.UserList.Add(UserItem);
             }
 
@@ -60,12 +60,19 @@ namespace ScorecardApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult UserAccessRights(Models.User model)
+        public ActionResult UserAccessRights(Models.User model, int? UserID)
         {
+
+            if (UserID != null)
+            {
+                return (Redirect($"/Home/EditUser?UserID{UserID}"));
+            }
+            else
+            { 
             return (RedirectToAction("EditUser", "Home"));
-     
+            }
         }
-        public ActionResult EditUser()
+        public ActionResult EditUser(int? UserID)
         {
             Models.User model = new Models.User();
             dsScorecard ScorecardDataset = new dsScorecard();
@@ -78,6 +85,35 @@ namespace ScorecardApplication.Controllers
                 model.UserLevelList.Add(new SelectListItem { Text = Row.Description, Value = Row.UserLevelID.ToString() });
             }
 
+            if(UserID != null)
+            {
+                UserTableAdapter UserTA = new UserTableAdapter();
+                UserTA.Fill(ScorecardDataset.User);
+                dsScorecard.UserRow UserRow = ScorecardDataset.User.FindByUserID(UserID.Value);
+
+                dsScorecard.UserLevelRow UserLevelRow = ScorecardDataset.UserLevel.FindByUserLevelID(UserRow.UserLevelID);
+                String[] PagePermissions = UserLevelRow.PagePermissions.Split(Convert.ToChar("|"));
+
+
+                UserLevel UserLevelModel = new UserLevel{
+                    decription = UserLevelRow.Description,
+                    userlevelid = UserLevelRow.UserLevelID,
+                    pagepermissions = new List<String>()
+                };
+
+                foreach (String Item in PagePermissions)
+                {
+                    UserLevelModel.pagepermissions.Add(Item);
+                }
+
+                model.emailaddress = UserRow.EmailAddress;
+                model.firstname = UserRow.FirstName;
+                model.surname = UserRow.Surname;
+                model.userid = UserRow.UserID;
+                model.userlevel = UserLevelModel;
+                model.username = UserRow.Username;
+            }
+
             return View(model);
         }
 
@@ -85,8 +121,16 @@ namespace ScorecardApplication.Controllers
         [HttpPost]
         public ActionResult EditUser(Models.User model)
         {
+            
             UserTableAdapter UserTA = new UserTableAdapter();
-            UserTA.Insert(model.username, model.firstname, model.surname, model.emailaddress, model.userlevel.userlevelid);
+            if (model.userid> 0)
+            {
+                UserTA.Update(model.username, model.firstname, model.surname, model.emailaddress, model.userlevel.userlevelid, model.userid);
+            }
+            else
+            {
+                UserTA.Insert(model.username, model.firstname, model.surname, model.emailaddress, model.userlevel.userlevelid);
+            }
 
 
             return (RedirectToAction("UserAccessRights", "Home"));

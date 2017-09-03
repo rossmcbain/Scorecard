@@ -12,9 +12,15 @@
                     <div class="row">
 
                         @Html.LabelFor(m => m.ScorecardID)
+                        @if (IsPost)
+                        {
+                            @Html.TextBoxFor(m => m.ScorecardName, new { @class = "form-control", @readonly = "true" })
+                        }
+                        else
+                        {
                         @Html.DropDownListFor(m => m.ScorecardID, Model.ListOfTemplates, new { @class = "form-control" })
                         <input type="submit" name="submit" class="btn" value="Load" />
-
+                        }
                         </div>
                 </div>
             </div>
@@ -42,20 +48,21 @@
                 </td>
             </tr>
         </thead>
+        <tbody>
         @foreach(KeyValuePair<int,ScorecardApplication.Models.ScorecardModel> item in Model.ListOfResults)
         {
             <tr>
                 <td>
-                    @item.Value.datescored.ToShortDateString();
+                    @item.Value.datescored.ToString("dd/MM/yyyy")
                 </td>
                 <td>
-                    @item.Value.agentscored;
+                    @item.Value.agentscored.fullname
                 </td>
                 <td>
-                    @item.Value.scoredby;
+                    @item.Value.scoredby.fullname
                 </td>
                 <td>
-                    @item.Value.score.ToString();
+                    @item.Value.score.ToString()
                 </td>
                 <td>
                     <a href="/Score/ScoreCardResult?ResultID=@item.Key.ToString()">Load Scorecard</a>
@@ -66,6 +73,7 @@
 
 
         }
+</tbody>
     </table>
 
     }
