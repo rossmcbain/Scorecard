@@ -153,6 +153,7 @@ namespace ScorecardApplication.Models
         public int userlevelid { get; set; }
         public string decription { get; set; }
         public List<string> pagepermissions { get; set; }
+
     }
 
 

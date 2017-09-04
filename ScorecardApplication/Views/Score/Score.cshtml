@@ -3,10 +3,6 @@
 }
 @model ScorecardApplication.Models.ScorecardModel
 
-@{ 
-    //List<string> ScorecardTemplate = ViewData["ScorecardList"] as List<string>;
-    //String filepath = ViewData["RecordingPath"] as String; 
-}
 
 
 @using (Html.BeginForm())
@@ -65,10 +61,7 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-md-3">
-                        @Html.LabelFor(m => m.scorecarddescription)
-                        @Html.TextBoxFor(m => m.scorecarddescription, new { @class = "form-control", @readonly = "true" })
-                    </div>
+
                     <div class="col-md-3">
                         @Html.LabelFor(m => m.recording)
                         @Html.DropDownListFor(m => m.recording, Model.Callrecordinglist, new { @class = "form-control" })
@@ -95,14 +88,7 @@
 
             </div>
         </div>
-                <div class="row">
 
-                    <div class="col-md-3">
-                        @Html.LabelFor(m => m.scorecarddescription)
-                        @Html.TextBoxFor(m => m.scorecarddescription, new { @class = "form-control", @readonly = "true" })
-                    </div>
-
-                </div>
                 <div class="row">
                     <audio src="@Model.recordingfilename" type="audio/mp3" controls="controls"/>
                 </div>
@@ -131,16 +117,13 @@
                     @Html.LabelFor(m => m.scorecardgroups[j].groupname)
                     @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control", @readonly = "true" })
                 </div>
-                <div class="col-md-3">
-                    @Html.LabelFor(m => m.scorecardgroups[j].groupdescription)
-                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control", @readonly = "true" })
-                </div>
+
             </div>
             <br />
 
 
 
-            <table id="@tablename">
+            <table id="@tablename" class="table">
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
@@ -176,9 +159,7 @@
                                 }
                             </td>
                          
-                            <td>
-                               
-                            </td>
+
 
                             <td>
                                 @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].comment, new { @class = "form-control" })
@@ -216,11 +197,4 @@
 
 }
 
-@*<script type="text/javascript">
-$(function(){
-$("#recording").on("change", function {
-    $("#recordingfilename").val($(this).text());
- });
-});
-</script>*@
-    
+

@@ -49,7 +49,8 @@ namespace ScorecardApplication.Controllers
                     surname = UserRow.Surname,
                     username = UserRow.Username,
                     emailaddress = UserRow.EmailAddress,
-                    userlevel = UserLevelItem
+                    userlevel = UserLevelItem,
+                    userid = UserRow.UserID
                     
                     
                 };
@@ -92,7 +93,7 @@ namespace ScorecardApplication.Controllers
                 dsScorecard.UserRow UserRow = ScorecardDataset.User.FindByUserID(UserID.Value);
 
                 dsScorecard.UserLevelRow UserLevelRow = ScorecardDataset.UserLevel.FindByUserLevelID(UserRow.UserLevelID);
-                String[] PagePermissions = UserLevelRow.PagePermissions.Split(Convert.ToChar("|"));
+                String[] PagePermissions = UserLevelRow.PagePermissions.Split(Convert.ToChar(","));
 
 
                 UserLevel UserLevelModel = new UserLevel{
@@ -121,7 +122,8 @@ namespace ScorecardApplication.Controllers
         [HttpPost]
         public ActionResult EditUser(Models.User model)
         {
-            
+
+
             UserTableAdapter UserTA = new UserTableAdapter();
             if (model.userid> 0)
             {

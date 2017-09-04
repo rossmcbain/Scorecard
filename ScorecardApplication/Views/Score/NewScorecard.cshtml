@@ -20,11 +20,7 @@
                             @Html.TextBoxFor(m => m.scorecardname, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.scorecardname)
                         </div>
-                        <div class="col-md-3">
-                            @Html.LabelFor(m => m.scorecarddescription)
-                            @Html.TextBoxFor(m => m.scorecarddescription, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.scorecarddescription)
-                        </div>
+
                         <div class="col-md-3">
                             @Html.LabelFor(m => m.passmark)
                             @Html.TextBoxFor(m => m.passmark, new { @class = "form-control" })
@@ -67,7 +63,7 @@
 
 
                                
-                                <table id="@tablename">
+                                <table id="@tablename" class="table">
                                     <thead>
                                         <tr>
                                             <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>

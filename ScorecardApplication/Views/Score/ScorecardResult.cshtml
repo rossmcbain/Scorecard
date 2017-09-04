@@ -77,16 +77,13 @@
                     @Html.LabelFor(m => m.scorecardgroups[j].groupname)
                     @Html.TextBoxFor(m => m.scorecardgroups[j].groupname, new { @class = "form-control", @readonly = "true" })
                 </div>
-                <div class="col-md-3">
-                    @Html.LabelFor(m => m.scorecardgroups[j].groupdescription)
-                    @Html.TextBoxFor(m => m.scorecardgroups[j].groupdescription, new { @class = "form-control", @readonly = "true" })
-                </div>
+
             </div>
             <br />
 
 
 
-            <table id="@tablename">
+            <table id="@tablename" class="table">
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.scorecardgroups[j].scorecarditems.FirstOrDefault().question)</th>
@@ -109,13 +106,13 @@
                                 @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].answer, new { @class = "form-control", @readonly = "true" })
                             </td>
 
-                            <td></td>
+            
 
                             <td>
                                 @Html.TextBoxFor(m => m.scorecardgroups[j].scorecarditems[i].comment, new { @class = "form-control", @readonly = "true" })
 
                             </td>
-                            <td></td>
+               
                         </tr>
                     }
 

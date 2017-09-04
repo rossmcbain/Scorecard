@@ -152,17 +152,55 @@ namespace ScorecardApplication.Controllers
                     }
                 }
 
+                ScorecardItemGroupTableAdapter SCGroupTA = new ScorecardItemGroupTableAdapter();
+                SCGroupTA.Fill(ScorecardDataset.ScorecardItemGroup, model.scorecardid);
 
-                int ResultID = Convert.ToInt32(ResultTA.ResultInsertCommand(model.agentscored.userid, ScorerID, model.scorecardid, DateTime.Now, model.callreference, 0, model.comment));
+                ScorecardItemTableAdapter SCItemTA = new ScorecardItemTableAdapter();
+                SCItemTA.Fill(ScorecardDataset.ScorecardItem, model.scorecardid,null);
+
+                model.score = 0;
+                bool AutoFail = false;
+                foreach (ScorecardGroup Group in model.scorecardgroups)
+                {
+                    Group.score = 0;
+                    foreach (ScorecardItem Item in Group.scorecarditems)
+                    {
+                        dsScorecard.ScorecardItemRow ItemRow = ScorecardDataset.ScorecardItem.FindByScorecardItemID(Item.itemid);
+                        if (Item.answer.ToLower() == ItemRow.Answer.ToLower())
+                        {
+                            Item.score = ItemRow.ScoreModifier;
+                            Group.score += ItemRow.ScoreModifier;
+                            model.score += ItemRow.ScoreModifier;
+                        }
+                        else
+                        {
+                            Item.score = 0;
+                            if(Item.autofail.ToLower() == "true")
+                            {
+                                AutoFail = true;
+                            }
+                        }
+                    }
+
+
+                }
+                if(AutoFail)
+                {
+                    model.score = 0;
+                }
+
+
+                // Save Results
+                int ResultID = Convert.ToInt32(ResultTA.ResultInsertCommand(model.agentscored.userid, ScorerID, model.scorecardid, DateTime.Now, model.callreference, model.score, model.comment));
 
                foreach(ScorecardGroup Group in model.scorecardgroups)
                 {
                     int GroupID = 0;
-                    GroupID = Convert.ToInt32(ResultGroupTA.ResultGroupInsertCommand(ResultID, Group.groupid, Group.comment, 0));
+                    GroupID = Convert.ToInt32(ResultGroupTA.ResultGroupInsertCommand(ResultID, Group.groupid, Group.comment, Group.score));
                     
                     foreach(ScorecardItem Item in Group.scorecarditems)
                     {
-                        ResultItemTA.ResultItemInsertCommand(ResultID, Item.itemid, Item.answer, 0, Item.comment, GroupID);
+                        ResultItemTA.ResultItemInsertCommand(ResultID, Item.itemid, Item.answer, Item.score, Item.comment, GroupID);
                     }
 
 
@@ -518,6 +556,9 @@ namespace ScorecardApplication.Controllers
             return View(model);
         }
 
-
+        public ActionResult Reports()
+        {
+            return View();
+        }
     }
 }
